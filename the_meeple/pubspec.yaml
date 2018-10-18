@@ -13,7 +13,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  scoped_model: ^0.3.0
+  sqflite: 0.12.2+1
+  shared_preferences: ^0.4.3
+  path_provider: ^0.4.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
