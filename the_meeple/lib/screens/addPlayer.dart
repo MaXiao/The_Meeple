@@ -1,44 +1,81 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:the_meeple/models/Player.dart';
 import 'package:the_meeple/screens/addPlayerBloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
+import 'package:intl/intl.dart';
+import 'package:the_meeple/utils/Views/empty_view.dart';
 
-class AddPlayerScreen extends StatelessWidget {
-  final scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          child: InputField(),
-        ),
-      ),
-    );
-  }
-}
-
-class InputField extends StatefulWidget {
+class AddPlayerScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return InputFieldState();
   }
 }
 
-class InputFieldState extends State<InputField> {
-  final bloc = AddPlayerBloc();
+class InputFieldState extends State<AddPlayerScreen> {
+  final _bloc = AddPlayerBloc();
   final _controller = TextEditingController();
   final _focus = FocusNode();
+  final _dateFormatter = DateFormat('MM dd, yyyy');
+  List<Player> _players;
 
   @override
   void dispose() {
-    bloc.dispose();
+    _bloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CupertinoNavigationBar(
+        leading: FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              "Cancel",
+              style: TextStyle(
+                  color: MeepleColors.primaryBlue,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            )),
+        middle: StreamBuilder<List<Player>>(
+          stream: _bloc.addedPlayers,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data.isNotEmpty) {
+              _players = snapshot.data;
+              return Text("Add Player (${snapshot.data.length})");
+            }
+            return Text("Add Player");
+          },
+        ),
+        trailing: FlatButton(
+          onPressed: () {
+            Navigator.pop(context, _players);
+          },
+          child: Text(
+            "Done",
+            style: TextStyle(
+                color: MeepleColors.primaryBlue,
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        padding: const EdgeInsetsDirectional.only(start: 0, end: 0),
+      ),
+      body: SafeArea(
+        child: Container(
+          child: _body(),
+        ),
+      ),
+    );
+  }
+
+  Widget _body() {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: Column(
@@ -53,38 +90,75 @@ class InputFieldState extends State<InputField> {
               focusNode: _focus,
               controller: _controller,
               autofocus: true,
-              onSubmitted: (newString) {
-                _controller.clear();
-                FocusScope.of(context).requestFocus(_focus);
-                bloc.playerAddition.add(newString);
+              onChanged: (newString) {
+                _bloc.searchPlayers.add(newString);
               },
+              onSubmitted: (newString) {
+                // clear input field
+                _controller.clear();
+                // hide autocomplete dropdown
+                _bloc.searchPlayers.add("");
+                // keep the keyboard
+                FocusScope.of(context).requestFocus(_focus);
+                _bloc.playerCreation.add(newString);
+              },
+              textInputAction: TextInputAction.done,
             ),
           ),
-          _playerList()
+          Expanded(child: Stack(children: [_playerList(), _autocomplete()])),
         ],
       ),
     );
   }
 
-  Widget _playerList() {
-    return Expanded(
-      child: StreamBuilder<List<Player>>(
-        stream: bloc.items,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data.isNotEmpty) {
-            return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
+  Widget _autocomplete() {
+    return StreamBuilder<List<Player>>(
+      stream: _bloc.possiblePlayers,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data.isNotEmpty) {
+          return DecoratedBox(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: MeepleColors.borderGray)),
+            child: ListView.builder(
+              itemBuilder: (context, index) {
                 final player = snapshot.data[index];
-                return PlayerCell(player.name, () {
-                  bloc.playerRemoval.add(index);
+                return AutoCompleteCell(player, _dateFormatter, () {
+                  // clear input field
+                  _controller.clear();
+                  _bloc.searchPlayers.add("");
+                  _bloc.addPlayer.add(player);
                 });
               },
               itemCount: snapshot.data.length,
-            );
-          }
-          return Text("Add Player");
-        },
-      ),
+              shrinkWrap: true,
+            ),
+          );
+        } else {
+          return EmptyView();
+        }
+      },
+    );
+  }
+
+  Widget _playerList() {
+    return StreamBuilder<List<Player>>(
+      stream: _bloc.addedPlayers,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data.isNotEmpty) {
+          _players = snapshot.data;
+          return ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              final player = snapshot.data[index];
+              return PlayerCell(player.name, () {
+                _bloc.playerRemoval.add(index);
+              });
+            },
+            itemCount: snapshot.data.length,
+          );
+        }
+        return EmptyView();
+      },
     );
   }
 }
@@ -93,7 +167,7 @@ class PlayerCell extends StatelessWidget {
   final String _title;
   final VoidCallback _onDismissCallback;
 
-  PlayerCell(String this._title, VoidCallback this._onDismissCallback);
+  PlayerCell(this._title, this._onDismissCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +189,7 @@ class PlayerCell extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     color: MeepleColors.textLightGray,
-                  ),i
+                  ),
                 ),
               ),
               IconButton(
@@ -130,5 +204,50 @@ class PlayerCell extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+
+class AutoCompleteCell extends StatelessWidget {
+  final Player _player;
+  final DateFormat _formatter;
+  final VoidCallback _onTapCallback;
+
+  AutoCompleteCell(this._player, this._formatter, this._onTapCallback);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _onTapCallback,
+      child: Container(
+        height: 54.0,
+        child: Padding(
+          padding: EdgeInsets.only(left: 16, right: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  _player.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0,
+                  ),
+                ),
+              ),
+              Text(
+                _dateString(),
+                style:
+                    TextStyle(color: MeepleColors.textLightGray, fontSize: 12.0),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _dateString() {
+    return "last played on ${_formatter.format(_player.lastPlayed)}";
   }
 }

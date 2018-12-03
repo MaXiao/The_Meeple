@@ -123,8 +123,12 @@ class ScoringScreen extends StatelessWidget {
     );
   }
   
-  void _showAddPlayers(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlayerScreen()));
+  void _showAddPlayers(BuildContext context) async {
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlayerScreen()));
+
+    if (result is List<Player> && result.isNotEmpty) {
+      print(result);
+    }
   }
 
   void _saveUser(String name) {

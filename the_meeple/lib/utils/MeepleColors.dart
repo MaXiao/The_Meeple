@@ -5,4 +5,5 @@ class MeepleColors {
   static const Color primaryBlue = Color(0xFF2A4FBF);
   static const Color textGray = Color(0xFFACACB7);
   static const Color textLightGray = Color(0xFFacacb7);
+  static const Color borderGray = Color(0xFFF0F3FB);
 }
