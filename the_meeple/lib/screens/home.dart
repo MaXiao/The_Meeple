@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:the_meeple/screens/record.dart';
 import 'package:the_meeple/screens/scoring.dart';
+import 'package:the_meeple/utils/MeepleColors.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -13,22 +14,39 @@ class HomeScreen extends StatelessWidget {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(items: [
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.home),
-          title: Text('Scoring'),
+          icon: Image.asset('assets/images/ic_tabbar_score_grey.png'),
+          activeIcon: Image.asset('assets/images/ic_tabbar_score_blue.png'),
+          title: Text(
+            'Scoring',
+            style: buildTextStyle(),
+          ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.book),
-          title: Text('Record'),
+          icon: Image.asset('assets/images/ic_tabbar_record_grey.png'),
+          activeIcon: Image.asset('assets/images/ic_tabbar_record_blue.png'),
+          title: Text(
+            'Record',
+            style: buildTextStyle(),
+          ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.search),
-          title: Text('Timer'),
+          icon: Image.asset('assets/images/ic_tabbar_timer_grey.png'),
+          activeIcon: Image.asset('assets/images/ic_tabbar_timer_blue.png'),
+          title: Text(
+            'Timer',
+            style: buildTextStyle(),
+          ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.settings),
-          title: Text('More'),
+          icon: Image.asset('assets/images/ic_tabbar_more_grey.png'),
+          activeIcon: Image.asset('assets/images/ic_tabbar_more_blue.png'),
+          title: Text(
+            'More',
+            style: buildTextStyle(),
+          ),
         ),
-      ]),
+      ],
+      activeColor: MeepleColors.primaryBlue,),
       tabBuilder: (context, index) {
         if (index == 0) {
           return ScoringScreen();
@@ -37,5 +55,12 @@ class HomeScreen extends StatelessWidget {
         }
       },
     );
+  }
+
+  TextStyle buildTextStyle() {
+    return TextStyle(
+//        color: MeepleColors.primaryBlue,
+        fontSize: 12,
+        fontWeight: FontWeight.bold);
   }
 }

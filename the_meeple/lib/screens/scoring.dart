@@ -132,26 +132,10 @@ class _PlayerListEmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      promptLabel(),
+      _topImage(),
+      _promptLabel(),
       addButton(context),
     ]);
-  }
-
-  Widget promptLabel() {
-    return Container(
-      margin: EdgeInsets.only(left: 45.0, top: 140.0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          'Add players to start scoring for your game.',
-          style: TextStyle(
-            fontSize: 16.0,
-            color: MeepleColors.textGray,
-          ),
-          textAlign: TextAlign.left,
-        ),
-      ),
-    );
   }
 
   Widget addButton(BuildContext context) {
@@ -172,6 +156,50 @@ class _PlayerListEmptyView extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
             onPressed: _onAddPlayersCallback),
+      ),
+    );
+  }
+}
+
+class _promptLabel extends StatelessWidget {
+  const _promptLabel({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 45.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          'Add players to start scoring for your game.',
+          style: TextStyle(
+            fontSize: 16.0,
+            color: MeepleColors.textGray,
+          ),
+          textAlign: TextAlign.left,
+        ),
+      ),
+    );
+  }
+}
+
+class _topImage extends StatelessWidget {
+  const _topImage({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 56, bottom: 18),
+      child: Container(
+        height: 65,
+        width: 146,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/img_score.png'))),
       ),
     );
   }

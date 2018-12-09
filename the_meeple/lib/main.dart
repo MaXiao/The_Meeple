@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:the_meeple/screens/addPlayer.dart';
 import 'package:the_meeple/screens/home.dart';
+import 'package:the_meeple/utils/MeepleColors.dart';
 
 void main() => runApp(new MyApp());
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Manrope",
         scaffoldBackgroundColor: Colors.white,
         backgroundColor: Colors.white,
-        primaryColor: Colors.white,
+        primaryColor: MeepleColors.primaryBlue,
       ),
       home: HomeScreen(),
     );
