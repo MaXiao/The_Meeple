@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:the_meeple/dataprovider/DBHelper.dart';
 import 'package:the_meeple/models/Player.dart';
 import 'package:the_meeple/screens/addPlayer.dart';
+import 'package:the_meeple/screens/add_player_screen.dart';
 import 'package:the_meeple/screens/scoring_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 
@@ -105,7 +106,7 @@ class ScoringScreenState extends State<ScoringScreen> {
 
   void _showAddPlayers(BuildContext context, List<Player> players) async {
     final result = await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddPlayerScreen()));
+        context, MaterialPageRoute(builder: (context) => PlayerScreen()));
 
     if (result is List<Player>) {
       _bloc.selectPlayers.add(result);

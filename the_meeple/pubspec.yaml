@@ -39,6 +39,7 @@ flutter:
     - assets/images/ic_tabbar_more_grey.png
     - assets/images/ic_tabbar_more_blue.png
     - assets/images/btn_add.png
+    - assets/images/btn_added.png
     - assets/images/ic_add.png
     - assets/images/ic_add_blue.png
     - assets/images/ic_manage.png
