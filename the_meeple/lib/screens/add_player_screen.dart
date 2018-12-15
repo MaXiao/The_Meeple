@@ -7,9 +7,13 @@ import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:the_meeple/utils/Views/empty_view.dart';
 
 class PlayerScreen extends StatefulWidget {
+  PlayerScreen(this._selectedPlayers);
+
+  List<Player> _selectedPlayers;
+
   @override
   State<StatefulWidget> createState() {
-    return AddPlayerScreenState();
+    return AddPlayerScreenState(_selectedPlayers);
   }
 }
 
@@ -19,6 +23,8 @@ class AddPlayerScreenState extends State<PlayerScreen> {
   final _focus = FocusNode();
   List<Player> _players;
   List<Player> _selectedPlayers;
+
+  AddPlayerScreenState(this._selectedPlayers);
 
   @override
   void dispose() {
@@ -48,7 +54,7 @@ class AddPlayerScreenState extends State<PlayerScreen> {
                   _bloc.createPlayer.add(name);
                   FocusScope.of(context).requestFocus(_focus);
                 },
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.go,
               ),
             ),
           ),
@@ -92,13 +98,25 @@ class _PlayerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Player>>(
-      stream: _bloc.selectedPlayers,
+      stream: _bloc.players,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data.isNotEmpty) {
           return ListView.builder(
             itemBuilder: (context, index) {
               final player = snapshot.data[index];
-              return _PlayerCell(player: player, selected: true,);
+              return StreamBuilder(
+                  stream: _bloc.selectedPlayers,
+                  builder: (context, snapshot2) {
+                    return GestureDetector(
+                      onTap: () {
+                        _bloc.toggleSelection.add(player);
+                      },
+                      child: _PlayerCell(
+                          player: player,
+                          selected: snapshot2.hasData &&
+                              snapshot2.data.contains(player)),
+                    );
+                  });
             },
             itemCount: snapshot.data.length,
           );
@@ -126,7 +144,10 @@ class _PlayerCell extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: Container(
           height: 54,
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: MeepleColors.paleGray, width: 2.0))),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom:
+                      BorderSide(color: MeepleColors.paleGray, width: 2.0))),
           child: Row(
             children: <Widget>[
               Expanded(
@@ -135,7 +156,9 @@ class _PlayerCell extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 ),
               ),
-              selected ? Image.asset('assets/images/btn_added.png') : Image.asset('assets/images/btn_add.png'),
+              selected
+                  ? Image.asset('assets/images/btn_added.png')
+                  : Image.asset('assets/images/btn_add.png'),
             ],
           )),
     );
