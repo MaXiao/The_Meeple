@@ -10,6 +10,7 @@ class AddPlayerScreenBloc {
 
   final BehaviorSubject<List<Player>> _playersHolder = BehaviorSubject<List<Player>>();
   final BehaviorSubject<List<Player>> _selectedPlayersHolder = BehaviorSubject<List<Player>>();
+  final BehaviorSubject<String> _toastMessage = BehaviorSubject<String>();
 
   final StreamController<List<Player>> _playersSelectionController = StreamController<List<Player>>();
   final StreamController<Player> _playerSelectionToggleController = StreamController<Player>();
@@ -33,10 +34,15 @@ class AddPlayerScreenBloc {
 
     _playerCreationController.stream.listen((name) {
       final player = Player(name, DateTime.now(), DateTime.now());
-      _players.insert(0, player);
-      _selectedPlayers.add(player);
-      _playersHolder.add(_players);
-      _selectedPlayersHolder.add(_selectedPlayers);
+      
+      if (_players.contains(player)) {
+        _toastMessage.add("There is another recorded player named ${player.name}. ");
+      } else {
+        _players.insert(0, player);
+        _selectedPlayers.add(player);
+        _playersHolder.add(_players);
+        _selectedPlayersHolder.add(_selectedPlayers);
+      }
     });
   }
 
@@ -53,6 +59,6 @@ class AddPlayerScreenBloc {
 
   Stream<List<Player>> get players => _playersHolder.stream;
   Stream<List<Player>> get selectedPlayers => _selectedPlayersHolder.stream;
-  StreamZip get listState => StreamZip([_playersHolder.stream, _selectedPlayersHolder.stream]);
+  Stream<String> get toast => _toastMessage.stream;
 
 }

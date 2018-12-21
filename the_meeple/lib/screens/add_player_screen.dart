@@ -6,10 +6,27 @@ import 'package:the_meeple/screens/add_player_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:the_meeple/utils/Views/empty_view.dart';
 
-class PlayerScreen extends StatefulWidget {
-  PlayerScreen(this._selectedPlayers);
+class AddPlayerInherited extends InheritedWidget {
+  final List<Player> selectedPlayers;
+  final AddPlayerScreenBloc bloc;
 
-  List<Player> _selectedPlayers;
+  AddPlayerInherited(
+      {Key key, @required this.bloc, @required this.selectedPlayers, @required Widget child})
+      : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(AddPlayerInherited oldWidget) =>
+      selectedPlayers != oldWidget.selectedPlayers;
+
+  static AddPlayerInherited of(BuildContext context) {
+    return context.inheritFromWidgetOfExactType(AddPlayerInherited);
+  }
+}
+
+class PlayerScreen extends StatefulWidget {
+  final List<Player> _selectedPlayers;
+
+  PlayerScreen(this._selectedPlayers);
 
   @override
   State<StatefulWidget> createState() {
@@ -34,36 +51,40 @@ class AddPlayerScreenState extends State<PlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _navbar(),
-      body: SafeArea(
-          child: Column(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(color: MeepleColors.paleGray),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, top: 12, bottom: 12),
-              child: CupertinoTextField(
-                decoration: BoxDecoration(color: Colors.white),
-                placeholder: 'Add new player',
-                focusNode: _focus,
-                controller: _editController,
-                onSubmitted: (name) {
-                  _editController.clear();
-                  _bloc.createPlayer.add(name);
-                  FocusScope.of(context).requestFocus(_focus);
-                },
-                textInputAction: TextInputAction.go,
+    return AddPlayerInherited(
+      bloc: _bloc,
+      selectedPlayers: _selectedPlayers,
+      child: Scaffold(
+        appBar: _navbar(),
+        body: SafeArea(
+            child: Column(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(color: MeepleColors.paleGray),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, top: 12, bottom: 12),
+                child: CupertinoTextField(
+                  decoration: BoxDecoration(color: Colors.white),
+                  placeholder: 'Add new player',
+                  focusNode: _focus,
+                  controller: _editController,
+                  onSubmitted: (name) {
+                    _editController.clear();
+                    _bloc.createPlayer.add(name);
+                    FocusScope.of(context).requestFocus(_focus);
+                  },
+                  textInputAction: TextInputAction.go,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: _PlayerList(bloc: _bloc),
-          ),
-          _AddButton(bloc: _bloc),
-        ],
-      )),
+            Expanded(
+              child: _PlayerList(),
+            ),
+            _AddButton(),
+          ],
+        )),
+      ),
     );
   }
 
@@ -87,34 +108,35 @@ class AddPlayerScreenState extends State<PlayerScreen> {
 }
 
 class _PlayerList extends StatelessWidget {
-  const _PlayerList({
-    Key key,
-    @required AddPlayerScreenBloc bloc,
-  })  : _bloc = bloc,
-        super(key: key);
-
-  final AddPlayerScreenBloc _bloc;
+  const _PlayerList();
 
   @override
   Widget build(BuildContext context) {
+    final _bloc = AddPlayerInherited.of(context).bloc;
+    final _selectedPlayers = AddPlayerInherited.of(context).selectedPlayers;
+
     return StreamBuilder<List<Player>>(
       stream: _bloc.players,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data.isNotEmpty) {
           return ListView.builder(
             itemBuilder: (context, index) {
-              final player = snapshot.data[index];
               return StreamBuilder(
                   stream: _bloc.selectedPlayers,
                   builder: (context, snapshot2) {
+                    if (snapshot2.hasData) {
+                      _selectedPlayers.clear();
+                      _selectedPlayers.addAll(snapshot2.data);
+                    }
+
+                    final player = snapshot.data[index];
                     return GestureDetector(
                       onTap: () {
                         _bloc.toggleSelection.add(player);
                       },
                       child: _PlayerCell(
                           player: player,
-                          selected: snapshot2.hasData &&
-                              snapshot2.data.contains(player)),
+                          selected: snapshot2.hasData && snapshot2.data.contains(player)),
                     );
                   });
             },
@@ -166,16 +188,13 @@ class _PlayerCell extends StatelessWidget {
 }
 
 class _AddButton extends StatelessWidget {
-  const _AddButton({
-    Key key,
-    @required AddPlayerScreenBloc bloc,
-  })  : _bloc = bloc,
-        super(key: key);
-
-  final AddPlayerScreenBloc _bloc;
+  const _AddButton();
 
   @override
   Widget build(BuildContext context) {
+    final _bloc = AddPlayerInherited.of(context).bloc;
+    final _selectedPlayers = AddPlayerInherited.of(context).selectedPlayers;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 40, 16, 40),
       child: ConstrainedBox(
@@ -197,7 +216,9 @@ class _AddButton extends StatelessWidget {
               disabledColor: MeepleColors.primaryBlue.withAlpha(126),
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(6.0)),
-              onPressed: count == 0 ? null : () {},
+              onPressed: count == 0 ? null : () {
+                Navigator.pop(context, _selectedPlayers);
+              },
             );
           },
         ),
