@@ -212,7 +212,7 @@ class _AddButton extends StatelessWidget {
               textColor: Colors.white,
               disabledTextColor: Colors.white,
               color: MeepleColors.primaryBlue,
-              disabledColor: MeepleColors.primaryBlue.withAlpha(126),
+              disabledColor: MeepleColors.bgGray,
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(6.0)),
               onPressed: count == 0 ? null : () {

@@ -1,22 +1,28 @@
 import 'dart:async';
 
+import 'package:the_meeple/models/player.dart';
+import 'package:the_meeple/models/record.dart';
+
 class AddScoreScreenBloc {
-  int _currentScore = 0;
+  final Record _record;
+  final Player _player;
 
-  final StreamController<int> _currentScoreHolder = StreamController<int>();
-
+  final StreamController<Record> _recordHolder = StreamController<Record>();
   final StreamController<int> _changeScoreController = StreamController<int>();
 
-  AddScoreScreenBloc() {
-
-
+  AddScoreScreenBloc(this._record, this._player) {
     _changeScoreController.stream.listen((delta) {
-      _currentScore += delta;
-      _currentScoreHolder.add(_currentScore);
+      _record.scores[_player] += delta;
+      _recordHolder.add(_record);
     });
+  }
+
+  dispose() {
+    _recordHolder.close();
+    _changeScoreController.close();
   }
 
   Sink<int> get changeScore => _changeScoreController.sink;
 
-  Stream<int> get currentScore => _currentScoreHolder.stream;
+  Stream<Record> get currentRecord => _recordHolder.stream;
 }

@@ -43,10 +43,16 @@ class AddScoreScreen extends StatefulWidget {
 class AddScoreScreenState extends State<AddScoreScreen> {
   final Record _record;
   final Player _player;
-  final AddScoreScreenBloc _bloc = AddScoreScreenBloc();
+  AddScoreScreenBloc _bloc;
 
   AddScoreScreenState(this._record, this._player) {
-    _bloc.changeScore.add(_record.scores[_player]);
+    _bloc = AddScoreScreenBloc(_record, _player);
+  }
+
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -109,11 +115,8 @@ class _ScoreBody extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 12, bottom: 20),
             child: StreamBuilder(
-              stream: bloc.currentScore,
+              stream: bloc.currentRecord,
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  record.scores[player] = snapshot.data;
-                }
                 String score = "${record.scores[player]}";
                 return Text(
                   "$score",
@@ -164,39 +167,38 @@ class _ScoreInputFieldState extends State<_ScoreInputField> {
                   placeholder: 'Enter score',
                   focusNode: _focus,
                   controller: _editController,
-                  onSubmitted: (name) {
-                    _editController.clear();
-                    FocusScope.of(context).requestFocus(_focus);
-                  },
                   keyboardType: TextInputType.number,
+                  onChanged: (newValue) {
+                    setState((){});
+                  },
                 ),
               ),
               Row(
                 children: <Widget>[
                   Flexible(
                     flex: 2,
-                    child: GestureDetector(
-                        onTap: () {
-                          if (_editController.text.isNotEmpty) {
-                            bloc.changeScore
-                                .add(-int.parse(_editController.text));
-                          }
-                        },
-                        child: _SignButton(sign: "-")),
+                    child: _SignButton(sign: "-", isEnabled: _editController.text.isNotEmpty, onPressed: () {
+                      if (_editController.text.isNotEmpty) {
+                        bloc.changeScore
+                            .add(-int.parse(_editController.text));
+                        _editController.clear();
+                        setState((){});
+                      }
+                    },),
                   ),
                   Container(
                     width: 12,
                   ),
                   Flexible(
                       flex: 3,
-                      child: GestureDetector(
-                          onTap: () {
-                            if (_editController.text.isNotEmpty) {
-                              bloc.changeScore
-                                  .add(int.parse(_editController.text));
-                            }
-                          },
-                          child: _SignButton(sign: "+"))),
+                      child: _SignButton(sign: "+", isEnabled: _editController.text.isNotEmpty, onPressed: () {
+                        if (_editController.text.isNotEmpty) {
+                          bloc.changeScore
+                              .add(int.parse(_editController.text));
+                          _editController.clear();
+                          setState((){});
+                        }
+                      })),
                 ],
               )
             ],
@@ -209,24 +211,32 @@ class _ScoreInputFieldState extends State<_ScoreInputField> {
 
 class _SignButton extends StatelessWidget {
   final String sign;
+  final bool isEnabled;
+  final VoidCallback onPressed;
 
   const _SignButton({
     Key key,
     @required this.sign,
+    @required this.isEnabled,
+    @required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 54,
-      decoration: BoxDecoration(
-          color: MeepleColors.bgGray,
-          borderRadius: BorderRadius.all(Radius.circular(6))),
-      child: Center(
-        child: Text(
-          sign,
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
+    return ConstrainedBox(
+      constraints: BoxConstraints.expand(height: 54),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(6))),
+        child: FlatButton(
+          color: MeepleColors.primaryBlue,
+          disabledColor: MeepleColors.bgGray,
+          child: Text(
+            sign,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
+          ),
+          onPressed: isEnabled ? onPressed : null,
         ),
       ),
     );
