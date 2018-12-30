@@ -1,11 +1,26 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:the_meeple/dataprovider/DBHelper.dart';
-import 'package:the_meeple/models/Player.dart';
-import 'package:the_meeple/screens/addPlayer.dart';
+import 'package:the_meeple/models/player.dart';
+import 'package:the_meeple/models/record.dart';
 import 'package:the_meeple/screens/add_player_screen.dart';
+import 'package:the_meeple/screens/add_score_screen.dart';
 import 'package:the_meeple/screens/scoring_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
+
+class ScoringInherited extends InheritedWidget {
+  final ScoringBloc bloc;
+
+  ScoringInherited({Key key, @required this.bloc, @required Widget child})
+      : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return false;
+  }
+
+  static ScoringInherited of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(ScoringInherited);
+}
 
 class ScoringScreen extends StatefulWidget {
   @override
@@ -19,19 +34,28 @@ class ScoringScreenState extends State<ScoringScreen> {
   final _bloc = ScoringBloc();
 
   @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              titleLabel(),
-              toggleRow(),
-              byPlayer(context),
-            ],
+    return ScoringInherited(
+      bloc: _bloc,
+      child: Scaffold(
+        key: scaffoldKey,
+        body: SafeArea(
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                titleLabel(),
+                toggleRow(),
+                byPlayer(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -74,15 +98,15 @@ class ScoringScreenState extends State<ScoringScreen> {
   }
 
   Widget byPlayer(BuildContext context) {
-    return StreamBuilder<List<Player>>(
+    return StreamBuilder<Record>(
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data.isNotEmpty) {
+        if (snapshot.hasData) {
           return Container(
             decoration: BoxDecoration(color: MeepleColors.paleGray),
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: _PlayerList(snapshot.data, () {
-                _showAddPlayers(context, snapshot.data);
+                _showAddPlayers(context, snapshot.data.players);
               }),
             ),
           );
@@ -100,7 +124,7 @@ class ScoringScreenState extends State<ScoringScreen> {
           );
         }
       },
-      stream: _bloc.players,
+      stream: _bloc.record,
     );
   }
 
@@ -110,23 +134,12 @@ class ScoringScreenState extends State<ScoringScreen> {
 //    players.add(Player("Xiao", DateTime.now(), DateTime.now()));
 //    players.add(Player("Q", DateTime.now(), DateTime.now()));
 
-    final result = await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => PlayerScreen(players)));
+    final result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => PlayerScreen(players)));
 
     if (result is List<Player>) {
       _bloc.selectPlayers.add(result);
     }
-  }
-
-  void _saveUser(String name) {
-    print(name);
-
-    var player = Player(name, DateTime.now(), DateTime.now());
-    var db = DBHelper();
-
-    db.savePlayer(player);
-    scaffoldKey.currentState
-        .showSnackBar(SnackBar(content: Text('Player saved')));
   }
 }
 
@@ -138,8 +151,8 @@ class _PlayerListEmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      _topImage(),
-      _promptLabel(),
+      TopImage(),
+      PromptLabel(),
       addButton(context),
     ]);
   }
@@ -167,8 +180,8 @@ class _PlayerListEmptyView extends StatelessWidget {
   }
 }
 
-class _promptLabel extends StatelessWidget {
-  const _promptLabel({
+class PromptLabel extends StatelessWidget {
+  const PromptLabel({
     Key key,
   }) : super(key: key);
 
@@ -191,8 +204,8 @@ class _promptLabel extends StatelessWidget {
   }
 }
 
-class _topImage extends StatelessWidget {
-  const _topImage({
+class TopImage extends StatelessWidget {
+  const TopImage({
     Key key,
   }) : super(key: key);
 
@@ -212,13 +225,15 @@ class _topImage extends StatelessWidget {
 }
 
 class _PlayerList extends StatelessWidget {
-  final List<Player> _players;
+  final Record _record;
   final VoidCallback _onAddPlayersCallback;
 
-  _PlayerList(this._players, this._onAddPlayersCallback);
+  _PlayerList(this._record, this._onAddPlayersCallback);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = ScoringInherited.of(context).bloc;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -226,9 +241,15 @@ class _PlayerList extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16, bottom: 8),
           child: ListView.builder(
             itemBuilder: (context, index) {
-              return _PlayerCell(_players[index]);
+              final p = _record.players[index];
+              return GestureDetector(
+                  onTap: () {
+//                    _record.scores[p] += 5;
+//                    bloc.updateScore.add(_record.scores);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddScoreScreen(_record, p)));
+                  }, child: _PlayerCell(p, _record.scores[p]));
             },
-            itemCount: _players.length,
+            itemCount: _record.players.length,
             shrinkWrap: true,
           ),
         ),
@@ -251,8 +272,9 @@ class _PlayerList extends StatelessWidget {
 
 class _PlayerCell extends StatelessWidget {
   final Player _player;
+  final int _score;
 
-  _PlayerCell(this._player);
+  _PlayerCell(this._player, this._score);
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +297,7 @@ class _PlayerCell extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   )),
                   Text(
-                    "0",
+                    "$_score",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

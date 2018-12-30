@@ -1,3 +1,5 @@
+import 'package:the_meeple/dataprovider/DBHelper.dart';
+
 class Player {
   String name;
   DateTime created;
@@ -7,6 +9,17 @@ class Player {
 
   @override
   bool operator ==(other) => (other is Player) && (other.name == name);
+
   @override
   int get hashCode => name.hashCode;
+
+  void saveUser(String name) {
+    print(name);
+
+    var player = Player(name, DateTime.now(), DateTime.now());
+    var db;
+    db = DBHelper();
+
+    db.savePlayer(player);
+  }
 }

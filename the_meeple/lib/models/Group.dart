@@ -1,4 +1,4 @@
-import 'package:the_meeple/models/Player.dart';
+import 'package:the_meeple/models/player.dart';
 
 class Group {
   List<Player> players;

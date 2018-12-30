@@ -3,7 +3,7 @@ import 'dart:io' as io;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:the_meeple/models/Player.dart';
+import 'package:the_meeple/models/player.dart';
 
 
 class DBHelper {

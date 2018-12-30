@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:async/async.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:the_meeple/models/Player.dart';
+import 'package:the_meeple/models/player.dart';
 
 class AddPlayerScreenBloc {
   final List<Player> _players = List();

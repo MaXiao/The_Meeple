@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:the_meeple/models/Player.dart';
+import 'package:the_meeple/models/player.dart';
 import 'package:the_meeple/screens/add_player_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:the_meeple/utils/Views/empty_view.dart';
@@ -38,7 +38,6 @@ class AddPlayerScreenState extends State<PlayerScreen> {
   final _bloc = AddPlayerScreenBloc();
   final _editController = TextEditingController();
   final _focus = FocusNode();
-  List<Player> _players;
   List<Player> _selectedPlayers;
 
   AddPlayerScreenState(this._selectedPlayers);

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:the_meeple/screens/addPlayer.dart';
 import 'package:the_meeple/screens/home.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 
