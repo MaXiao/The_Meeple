@@ -83,7 +83,9 @@ class AddScoreScreenState extends State<AddScoreScreen> {
           )),
       middle: Text("Add Score"),
       trailing: FlatButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context, _record);
+          },
           child: Text(
             "Done",
             style: TextStyle(

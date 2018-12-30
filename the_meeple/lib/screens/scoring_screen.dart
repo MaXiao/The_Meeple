@@ -232,8 +232,6 @@ class _PlayerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = ScoringInherited.of(context).bloc;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -244,9 +242,7 @@ class _PlayerList extends StatelessWidget {
               final p = _record.players[index];
               return GestureDetector(
                   onTap: () {
-//                    _record.scores[p] += 5;
-//                    bloc.updateScore.add(_record.scores);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddScoreScreen(_record, p)));
+                    _updateScore(context, _record, p);
                   }, child: _PlayerCell(p, _record.scores[p]));
             },
             itemCount: _record.players.length,
@@ -267,6 +263,15 @@ class _PlayerList extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void _updateScore(BuildContext context, Record record, Player player) async {
+    final bloc = ScoringInherited.of(context).bloc;
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => AddScoreScreen(_record, player)));
+
+    if (result is Record) {
+      bloc.updateScore.add(record.scores);
+    }
   }
 }
 
