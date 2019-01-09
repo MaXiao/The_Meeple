@@ -6,6 +6,7 @@ import 'package:the_meeple/screens/add_player_screen.dart';
 import 'package:the_meeple/screens/add_score_screen.dart';
 import 'package:the_meeple/screens/scoring_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ScoringInherited extends InheritedWidget {
   final ScoringBloc bloc;
@@ -236,19 +237,25 @@ class _PlayerList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 16, bottom: 8),
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              final p = _record.players[index];
-              return GestureDetector(
-                  onTap: () {
-                    _updateScore(context, _record, p);
-                  }, child: _PlayerCell(p, _record.scores[p]));
-            },
-            itemCount: _record.players.length,
-            shrinkWrap: true,
-          ),
-        ),
+            padding: const EdgeInsets.only(top: 16, bottom: 8),
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                final p = _record.players[index];
+                return GestureDetector(
+                    onTap: () {
+                      _updateScore(context, _record, p);
+                    },
+                    child: _PlayerCell(p, _record.scores[p]));
+              },
+              separatorBuilder: (context, index) {
+                return Container(
+                  height: 8,
+                  decoration: BoxDecoration(color: Colors.transparent),
+                );
+              },
+              itemCount: _record.players.length,
+              shrinkWrap: true,
+            )),
         FlatButton(
           child: Text(
             '\u{FF0B} Add player',
@@ -267,7 +274,10 @@ class _PlayerList extends StatelessWidget {
 
   void _updateScore(BuildContext context, Record record, Player player) async {
     final bloc = ScoringInherited.of(context).bloc;
-    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => AddScoreScreen(_record, player)));
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddScoreScreen(_record, player)));
 
     if (result is Record) {
       bloc.updateScore.add(record.scores);
@@ -283,41 +293,66 @@ class _PlayerCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-            height: 54.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(const Radius.circular(4.0)),
+    return Slidable(
+      delegate: SlidableScrollDelegate(),
+      secondaryActions: <Widget>[
+        SlideAction(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: MeepleColors.actionYellow,
+                  borderRadius: BorderRadius.all(const Radius.circular(6.0))),
+              child: Center(child: Text("Reset", style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),)),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 24),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                      child: Text(
-                    _player.name,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  )),
-                  Text(
-                    "$_score",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: MeepleColors.primaryBlue,
-                    ),
-                  )
-                ],
-              ),
-            )),
-        // divider
-        Container(
-          height: 8,
-          decoration: BoxDecoration(color: Colors.transparent),
-        )
+          ),
+          onTap: () {},
+        ),
+        SlideAction(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: MeepleColors.actionRed,
+                  borderRadius: BorderRadius.all(const Radius.circular(6.0))),
+              child: Center(child: Text("Delete", style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),)),
+            ),
+          ),
+          onTap: () {},
+        ),
       ],
+      child: Column(
+        children: <Widget>[
+          Container(
+              height: 51.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(const Radius.circular(4.0)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8, right: 24),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                        child: Text(
+                      _player.name,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    )),
+                    Text(
+                      "$_score",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: MeepleColors.primaryBlue,
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        ],
+      ),
     );
   }
 }
