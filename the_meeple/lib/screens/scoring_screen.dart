@@ -53,7 +53,6 @@ class ScoringScreenState extends State<ScoringScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 titleLabel(),
-                toggleRow(),
                 byPlayer(context),
               ],
             ),
@@ -101,7 +100,7 @@ class ScoringScreenState extends State<ScoringScreen> {
   Widget byPlayer(BuildContext context) {
     return StreamBuilder<Record>(
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data.scores.isNotEmpty) {
           return Container(
             decoration: BoxDecoration(color: MeepleColors.paleGray),
             child: Padding(
@@ -293,65 +292,75 @@ class _PlayerCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = ScoringInherited.of(context).bloc;
+
     return Slidable(
       delegate: SlidableScrollDelegate(),
       secondaryActions: <Widget>[
         SlideAction(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: MeepleColors.actionYellow,
-                  borderRadius: BorderRadius.all(const Radius.circular(6.0))),
-              child: Center(child: Text("Reset", style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),)),
-            ),
-          ),
-          onTap: () {},
+          child: _ActionButton(color: MeepleColors.actionYellow, text: "Reset",),
+          onTap: () {
+            bloc.resetPlayer.add(_player);
+          },
         ),
         SlideAction(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: MeepleColors.actionRed,
-                  borderRadius: BorderRadius.all(const Radius.circular(6.0))),
-              child: Center(child: Text("Delete", style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),)),
-            ),
-          ),
-          onTap: () {},
+          child: _ActionButton(color: MeepleColors.actionRed, text: "Delete",),
+          onTap: () {
+            bloc.removePlayer.add(_player);
+          },
         ),
       ],
-      child: Column(
-        children: <Widget>[
-          Container(
-              height: 51.0,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(const Radius.circular(4.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8, right: 24),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                        child: Text(
-                      _player.name,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                    )),
-                    Text(
-                      "$_score",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: MeepleColors.primaryBlue,
-                      ),
-                    )
-                  ],
-                ),
-              )),
-        ],
+      child: Container(
+          height: 51.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(const Radius.circular(4.0)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8, right: 24),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child: Text(
+                  _player.name,
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                )),
+                Text(
+                  "$_score",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: MeepleColors.primaryBlue,
+                  ),
+                )
+              ],
+            ),
+          )),
+    );
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  final Color color;
+  final String text;
+
+  const _ActionButton({
+    Key key,
+    @required this.color,
+    @required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5),
+      child: Container(
+        decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.all(const Radius.circular(6.0))),
+        child: Center(child: Text(text, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),)),
       ),
     );
   }
