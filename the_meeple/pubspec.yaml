@@ -44,6 +44,7 @@ flutter:
     - assets/images/ic_add.png
     - assets/images/ic_add_blue.png
     - assets/images/ic_manage.png
+    - assets/images/chevron_right.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

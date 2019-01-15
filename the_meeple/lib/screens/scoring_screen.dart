@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:the_meeple/models/player.dart';
@@ -275,7 +276,8 @@ class _PlayerList extends StatelessWidget {
     final bloc = ScoringInherited.of(context).bloc;
     final result = await Navigator.push(
         context,
-        MaterialPageRoute(
+        CupertinoPageRoute(
+            fullscreenDialog: true,
             builder: (context) => AddScoreScreen(_record, player)));
 
     if (result is Record) {
@@ -298,13 +300,19 @@ class _PlayerCell extends StatelessWidget {
       delegate: SlidableScrollDelegate(),
       secondaryActions: <Widget>[
         SlideAction(
-          child: _ActionButton(color: MeepleColors.actionYellow, text: "Reset",),
+          child: _ActionButton(
+            color: MeepleColors.actionYellow,
+            text: "Reset",
+          ),
           onTap: () {
             bloc.resetPlayer.add(_player);
           },
         ),
         SlideAction(
-          child: _ActionButton(color: MeepleColors.actionRed, text: "Delete",),
+          child: _ActionButton(
+            color: MeepleColors.actionRed,
+            text: "Delete",
+          ),
           onTap: () {
             bloc.removePlayer.add(_player);
           },
@@ -324,8 +332,7 @@ class _PlayerCell extends StatelessWidget {
                 Expanded(
                     child: Text(
                   _player.name,
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 )),
                 Text(
                   "$_score",
@@ -360,7 +367,12 @@ class _ActionButton extends StatelessWidget {
         decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.all(const Radius.circular(6.0))),
-        child: Center(child: Text(text, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),)),
+        child: Center(
+            child: Text(
+          text,
+          style: TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+        )),
       ),
     );
   }

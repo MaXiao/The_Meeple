@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:the_meeple/models/player.dart';
 import 'package:the_meeple/models/record.dart';
 import 'package:the_meeple/screens/add_score_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
+import 'package:the_meeple/utils/Views/empty_view.dart';
 
 class AddScoreInherited extends InheritedWidget {
   final Record record;
@@ -46,7 +49,7 @@ class AddScoreScreenState extends State<AddScoreScreen> {
   AddScoreScreenBloc _bloc;
 
   AddScoreScreenState(this._record, this._player) {
-    _bloc = AddScoreScreenBloc(_record, _player);
+    _bloc = AddScoreScreenBloc(_record);
   }
 
   @override
@@ -101,50 +104,120 @@ class AddScoreScreenState extends State<AddScoreScreen> {
 class _ScoreBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final player = AddScoreInherited.of(context).player;
+    final selectedPlayer = AddScoreInherited.of(context).player;
     final record = AddScoreInherited.of(context).record;
     final bloc = AddScoreInherited.of(context).bloc;
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "${player.name}'s score",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 12, bottom: 20),
-            child: StreamBuilder(
-              stream: bloc.currentRecord,
-              builder: (context, snapshot) {
-                String score = "${record.scores[player]}";
-                return Text(
-                  "$score",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    return StreamBuilder(
+        stream: bloc.currentRecord,
+        initialData: record,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final controller = PageController(
+                initialPage: record.players.indexOf(selectedPlayer));
+
+            return PageView.builder(
+              controller: controller,
+              itemBuilder: (context, position) {
+                final player = record.players[position % record.players.length];
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      _TopRow(controller: controller, player: player, position: position),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12, bottom: 20),
+                        child: Text(
+                          "${record.scores[player]}",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      _AddButtons(player: player),
+                      _ScoreInputField(player),
+                    ],
+                  ),
                 );
               },
-            ),
+              itemCount: null,
+            );
+          } else {
+            return EmptyView();
+          }
+        });
+  }
+}
+
+class _TopRow extends StatelessWidget {
+  const _TopRow({
+    Key key,
+    @required this.controller,
+    @required this.player,
+    @required this.position,
+  }) : super(key: key);
+
+  final PageController controller;
+  final Player player;
+  final int position;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Visibility(
+          visible: position != 0,
+          maintainState: true,
+          maintainAnimation: true,
+          maintainSize: true,
+          child: IconButton(
+            padding: EdgeInsets.fromLTRB(0, 8, 16, 8),
+            icon: Transform.rotate(
+                angle: pi, child: Image.asset('assets/images/chevron_right.png')),
+            onPressed: () {
+              controller.previousPage(
+                  duration: Duration(milliseconds: 300),
+                  curve: ElasticInOutCurve());
+            },
           ),
-          _AddButtons(),
-          _ScoreInputField(),
-        ],
-      ),
+        ),
+        Text(
+          "${player.name}'s score",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        IconButton(
+          padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+          icon: Image.asset('assets/images/chevron_right.png'),
+          onPressed: () {
+            controller.nextPage(
+                duration: Duration(milliseconds: 300),
+                curve: ElasticInOutCurve());
+          },
+        ),
+      ],
     );
   }
 }
 
 class _ScoreInputField extends StatefulWidget {
+  final Player _player;
+
+  _ScoreInputField(this._player);
+
   @override
   State<StatefulWidget> createState() {
-    return _ScoreInputFieldState();
+    return _ScoreInputFieldState(_player);
   }
 }
 
 class _ScoreInputFieldState extends State<_ScoreInputField> {
   final _editController = TextEditingController();
   final _focus = FocusNode();
+  final Player _player;
+
+  _ScoreInputFieldState(this._player);
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +244,7 @@ class _ScoreInputFieldState extends State<_ScoreInputField> {
                   controller: _editController,
                   keyboardType: TextInputType.number,
                   onChanged: (newValue) {
-                    setState((){});
+                    setState(() {});
                   },
                 ),
               ),
@@ -179,28 +252,35 @@ class _ScoreInputFieldState extends State<_ScoreInputField> {
                 children: <Widget>[
                   Flexible(
                     flex: 2,
-                    child: _SignButton(sign: "-", isEnabled: _editController.text.isNotEmpty, onPressed: () {
-                      if (_editController.text.isNotEmpty) {
-                        bloc.changeScore
-                            .add(-int.parse(_editController.text));
-                        _editController.clear();
-                        setState((){});
-                      }
-                    },),
+                    child: _SignButton(
+                      sign: "-",
+                      isEnabled: _editController.text.isNotEmpty,
+                      onPressed: () {
+                        if (_editController.text.isNotEmpty) {
+                          bloc.changeScore
+                              .add({_player: -int.parse(_editController.text)});
+                          _editController.clear();
+                          setState(() {});
+                        }
+                      },
+                    ),
                   ),
                   Container(
                     width: 12,
                   ),
                   Flexible(
                       flex: 3,
-                      child: _SignButton(sign: "+", isEnabled: _editController.text.isNotEmpty, onPressed: () {
-                        if (_editController.text.isNotEmpty) {
-                          bloc.changeScore
-                              .add(int.parse(_editController.text));
-                          _editController.clear();
-                          setState((){});
-                        }
-                      })),
+                      child: _SignButton(
+                          sign: "+",
+                          isEnabled: _editController.text.isNotEmpty,
+                          onPressed: () {
+                            if (_editController.text.isNotEmpty) {
+                              bloc.changeScore.add(
+                                  {_player: int.parse(_editController.text)});
+                              _editController.clear();
+                              setState(() {});
+                            }
+                          })),
                 ],
               )
             ],
@@ -228,8 +308,8 @@ class _SignButton extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints.expand(height: 54),
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(6))),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6))),
         child: FlatButton(
           color: MeepleColors.primaryBlue,
           disabledColor: MeepleColors.bgGray,
@@ -246,8 +326,11 @@ class _SignButton extends StatelessWidget {
 }
 
 class _AddButtons extends StatelessWidget {
+  final Player player;
+
   const _AddButtons({
     Key key,
+    @required this.player,
   }) : super(key: key);
 
   @override
@@ -264,15 +347,15 @@ class _AddButtons extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _AddButton(1),
+            _AddButton(1, player),
             Container(
               width: 10,
             ),
-            _AddButton(5),
+            _AddButton(5, player),
             Container(
               width: 10,
             ),
-            _AddButton(10),
+            _AddButton(10, player),
           ],
         ),
       ),
@@ -282,8 +365,9 @@ class _AddButtons extends StatelessWidget {
 
 class _AddButton extends StatelessWidget {
   final int _delta;
+  final Player _player;
 
-  _AddButton(this._delta);
+  _AddButton(this._delta, this._player);
 
   @override
   Widget build(BuildContext context) {
@@ -292,7 +376,7 @@ class _AddButton extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          bloc.changeScore.add(_delta);
+          bloc.changeScore.add({_player: _delta});
         },
         child: Container(
           decoration: BoxDecoration(

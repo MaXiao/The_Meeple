@@ -5,14 +5,14 @@ import 'package:the_meeple/models/record.dart';
 
 class AddScoreScreenBloc {
   final Record _record;
-  final Player _player;
 
   final StreamController<Record> _recordHolder = StreamController<Record>();
-  final StreamController<int> _changeScoreController = StreamController<int>();
+  final StreamController<Map<Player, int>> _changeScoreController = StreamController<Map<Player, int>>();
 
-  AddScoreScreenBloc(this._record, this._player) {
+  AddScoreScreenBloc(this._record) {
     _changeScoreController.stream.listen((delta) {
-      _record.scores[_player] += delta;
+      final player = delta.keys.first;
+      _record.scores[player] += delta[player];
       _recordHolder.add(_record);
     });
   }
@@ -22,7 +22,7 @@ class AddScoreScreenBloc {
     _changeScoreController.close();
   }
 
-  Sink<int> get changeScore => _changeScoreController.sink;
+  Sink<Map<Player, int>> get changeScore => _changeScoreController.sink;
 
   Stream<Record> get currentRecord => _recordHolder.stream;
 }
