@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:the_meeple/dataprovider/DBHelper.dart';
 import 'package:the_meeple/models/player.dart';
 
 class AddPlayerScreenBloc {
@@ -16,6 +17,12 @@ class AddPlayerScreenBloc {
   final StreamController<String> _playerCreationController = StreamController<String>();
 
   AddPlayerScreenBloc() {
+    DBHelper().getPlayers().then((players) {
+      _players.clear();
+      _players.addAll(players);
+      _playersHolder.add(_players);
+    });
+
     _playersSelectionController.stream.listen((players) {
       _players.clear();
       _players.addAll(players);
@@ -37,6 +44,8 @@ class AddPlayerScreenBloc {
       if (_players.contains(player)) {
         _toastMessage.add("There is another recorded player named ${player.name}. ");
       } else {
+        Player.saveUser(name);
+
         _players.insert(0, player);
         _selectedPlayers.add(player);
         _playersHolder.add(_players);

@@ -78,7 +78,7 @@ class AddScoreScreenState extends State<AddScoreScreen> {
             Navigator.pop(context);
           },
           child: Text(
-            "Next Player",
+            "Cancel",
             style: TextStyle(
                 color: MeepleColors.primaryBlue,
                 fontSize: 16,
@@ -90,7 +90,7 @@ class AddScoreScreenState extends State<AddScoreScreen> {
             Navigator.pop(context, _record);
           },
           child: Text(
-            "Done",
+            "Save",
             style: TextStyle(
                 color: MeepleColors.primaryBlue,
                 fontSize: 16,

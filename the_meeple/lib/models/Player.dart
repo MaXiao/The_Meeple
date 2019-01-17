@@ -13,13 +13,13 @@ class Player {
   @override
   int get hashCode => name.hashCode;
 
-  void saveUser(String name) {
-    print(name);
-
+  static void saveUser(String name) {
     var player = Player(name, DateTime.now(), DateTime.now());
     var db;
     db = DBHelper();
 
     db.savePlayer(player);
   }
+
+
 }
