@@ -24,9 +24,10 @@ class AddPlayerScreenBloc {
     });
 
     _playersSelectionController.stream.listen((players) {
-      _players.clear();
-      _players.addAll(players);
+      _selectedPlayers.clear();
+      _selectedPlayers.addAll(players);
       _playersHolder.add(_players);
+      _selectedPlayersHolder.add(_selectedPlayers);
     });
 
     _playerSelectionToggleController.stream.listen((player) {

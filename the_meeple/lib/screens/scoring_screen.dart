@@ -130,11 +130,6 @@ class ScoringScreenState extends State<ScoringScreen> {
   }
 
   void _showAddPlayers(BuildContext context, List<Player> players) async {
-    var players = List<Player>();
-//    players.add(Player("Aric", DateTime.now(), DateTime.now()));
-//    players.add(Player("Xiao", DateTime.now(), DateTime.now()));
-//    players.add(Player("Q", DateTime.now(), DateTime.now()));
-
     final result = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => PlayerScreen(players)));
 

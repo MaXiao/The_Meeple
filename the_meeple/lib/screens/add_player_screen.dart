@@ -50,6 +50,8 @@ class AddPlayerScreenState extends State<PlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _bloc.selectPlayers.add(_selectedPlayers);
+
     return AddPlayerInherited(
       bloc: _bloc,
       selectedPlayers: _selectedPlayers,
