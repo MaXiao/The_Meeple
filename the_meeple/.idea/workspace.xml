@@ -430,7 +430,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="308" y="26" width="2042" height="1301" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="13" show_stripe_button="false" />
       <window_info id="Build Variants" order="3" side_tool="true" />
