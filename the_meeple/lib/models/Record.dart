@@ -43,6 +43,10 @@ class Record {
     });
   }
 
+  reset() {
+    scores.clear();
+  }
+
   sortByScore() {
     scores = LinkedHashMap.fromEntries(scores.entries.toList()..sort((e1, e2) =>
         e1.value.compareTo(e2.value)));

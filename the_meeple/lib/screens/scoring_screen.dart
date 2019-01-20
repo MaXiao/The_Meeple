@@ -66,10 +66,37 @@ class ScoringScreenState extends State<ScoringScreen> {
   Widget titleLabel() {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 30.0),
-      child: Text(
-        'Scoring',
-        style: TextStyle(
-            fontSize: 28.0, color: Colors.black, fontWeight: FontWeight.w900),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            'Scoring',
+            style: TextStyle(
+                fontSize: 28.0,
+                color: Colors.black,
+                fontWeight: FontWeight.w900),
+          ),
+          FlatButton(
+            child: Container(
+              width: 100,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: MeepleColors.primaryBlue,
+                  borderRadius: BorderRadius.all(Radius.circular(6))),
+              child: Center(
+                  child: Text(
+                "Start new",
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              )),
+            ),
+            onPressed: () {
+              _bloc.startNew.add(null);
+            },
+          )
+        ],
       ),
     );
   }
@@ -251,18 +278,7 @@ class _PlayerList extends StatelessWidget {
               itemCount: _record.players.length,
               shrinkWrap: true,
             )),
-        FlatButton(
-          child: Text(
-            '\u{FF0B} Add player',
-            style: TextStyle(
-              color: MeepleColors.primaryBlue,
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onPressed: _onAddPlayersCallback,
-          padding: EdgeInsets.all(0),
-        )
+        new _BottomButtons(onAddPlayersCallback: _onAddPlayersCallback)
       ],
     );
   }
@@ -278,6 +294,73 @@ class _PlayerList extends StatelessWidget {
     if (result is Record) {
       bloc.updateScore.add(record.scores);
     }
+  }
+}
+
+class _BottomButtons extends StatelessWidget {
+  const _BottomButtons({
+    Key key,
+    @required onAddPlayersCallback,
+  })  : _onAddPlayersCallback = onAddPlayersCallback,
+        super(key: key);
+
+  final _onAddPlayersCallback;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        _BottomButton(
+          image: AssetImage('assets/images/ic_action_save.png'),
+          title: 'Save to record',
+          pressCallback: () {},
+        ),
+        _BottomButton(
+          image: AssetImage('assets/images/ic_manage.png'),
+          title: 'Manage',
+          pressCallback: () {},
+        ),
+      ],
+    );
+  }
+}
+
+class _BottomButton extends StatelessWidget {
+  const _BottomButton({
+    Key key,
+    @required this.image,
+    @required this.title,
+    @required this.pressCallback,
+  }) : super(key: key);
+
+  final VoidCallback pressCallback;
+  final AssetImage image;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Row(
+        children: <Widget>[
+          Image(
+            image: image,
+            color: MeepleColors.primaryBlue,
+          ),
+          Container(
+            width: 4,
+          ),
+          Text(title,
+              style: TextStyle(
+                color: MeepleColors.primaryBlue,
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              )),
+        ],
+      ),
+      onPressed: pressCallback,
+      padding: EdgeInsets.all(0),
+    );
   }
 }
 

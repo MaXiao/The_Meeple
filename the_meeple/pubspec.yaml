@@ -45,6 +45,11 @@ flutter:
     - assets/images/ic_add_blue.png
     - assets/images/ic_manage.png
     - assets/images/chevron_right.png
+    - assets/images/ic_action_save.png
+    - assets/images/ic_action_reset.png
+    - assets/images/ic_action_startnew.png
+    - assets/images/ic_action_rank.png
+    - assets/images/ic_manage.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
