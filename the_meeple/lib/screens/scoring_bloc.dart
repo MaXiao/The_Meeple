@@ -16,6 +16,8 @@ class ScoringBloc {
   final StreamController<LinkedHashMap<Player, int>> _updateScores = StreamController<LinkedHashMap<Player, int>>();
   final StreamController<Player> _resetPlayer = StreamController<Player>();
   final StreamController<Null> _startNew = StreamController();
+  final StreamController<Null> _resetScores = StreamController();
+  final StreamController<Null> _rankScores = StreamController();
 
   ScoringBloc() {
     _selectPlayers.stream.listen((players) {
@@ -39,6 +41,14 @@ class ScoringBloc {
       _record.reset();
       _recordHolder.add(_record);
     });
+    _resetScores.stream.listen((_) {
+      _record.resetScore();
+      _recordHolder.add(_record);
+    });
+    _rankScores.stream.listen((_) {
+      _record.sortByScore();
+      _recordHolder.add(_record);
+    });
   }
 
   dispose() {
@@ -48,6 +58,8 @@ class ScoringBloc {
     _updateScores.close();
     _resetPlayer.close();
     _startNew.close();
+    _resetScores.close();
+    _rankScores.close();
   }
 
   Stream<Record> get record => _recordHolder.stream;
@@ -57,4 +69,6 @@ class ScoringBloc {
   Sink<LinkedHashMap<Player, int>> get updateScore => _updateScores.sink;
   Sink<Player> get resetPlayer => _resetPlayer.sink;
   Sink<Null> get startNew => _startNew.sink;
+  Sink<Null> get resetScores => _resetScores.sink;
+  Sink<Null> get rankScores => _rankScores.sink;
 }

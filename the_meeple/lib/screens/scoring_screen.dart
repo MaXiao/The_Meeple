@@ -157,8 +157,11 @@ class ScoringScreenState extends State<ScoringScreen> {
   }
 
   void _showAddPlayers(BuildContext context, List<Player> players) async {
-    final result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => PlayerScreen(players)));
+    final result = await Navigator.push(
+        context,
+        CupertinoPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => PlayerScreen(players)));
 
     if (result is List<Player>) {
       _bloc.selectPlayers.add(result);
@@ -308,6 +311,8 @@ class _BottomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = ScoringInherited.of(context).bloc;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -319,7 +324,67 @@ class _BottomButtons extends StatelessWidget {
         _BottomButton(
           image: AssetImage('assets/images/ic_manage.png'),
           title: 'Manage',
-          pressCallback: () {},
+          pressCallback: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 375,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Container(
+                          height: 44,
+                          decoration: BoxDecoration(
+                              border: BorderDirectional(
+                                  bottom: BorderSide(
+                                      width: 1,
+                                      color: Color.fromARGB(40, 0, 0, 0)))),
+                          child: Center(
+                              child: Text(
+                            "Manage scores",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                        Container(height: 10,),
+                        ListView(
+                          shrinkWrap: true,
+                          children: <Widget>[
+                            _ActionCell(
+                              image: Image.asset(
+                                  "assets/images/ic_action_reset.png"),
+                              title: "Reset all to 0",
+                              pressCallback: () {
+                                bloc.resetScores.add(null);
+                                Navigator.pop(context);
+                              },
+                            ),
+                            _ActionCell(
+                              image:
+                                  Image.asset("assets/images/ic_action_add.png"),
+                              title: "Add player",
+                              pressCallback: () {
+                                Navigator.pop(context);
+                                _onAddPlayersCallback();
+                              },
+                            ),
+                            _ActionCell(
+                              image:
+                                  Image.asset("assets/images/ic_action_rank.png"),
+                              title: "Rank by score",
+                              pressCallback: () {
+                                bloc.rankScores.add(null);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                });
+          },
         ),
       ],
     );
@@ -354,6 +419,40 @@ class _BottomButton extends StatelessWidget {
               style: TextStyle(
                 color: MeepleColors.primaryBlue,
                 fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              )),
+        ],
+      ),
+      onPressed: pressCallback,
+      padding: EdgeInsets.all(0),
+    );
+  }
+}
+
+class _ActionCell extends StatelessWidget {
+  const _ActionCell({
+    Key key,
+    @required this.image,
+    @required this.title,
+    @required this.pressCallback,
+  }) : super(key: key);
+
+  final VoidCallback pressCallback;
+  final Widget image;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 12),
+            child: image,
+          ),
+          Text(title,
+              style: TextStyle(
+                fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               )),
         ],

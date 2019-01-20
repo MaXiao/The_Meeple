@@ -49,6 +49,7 @@ flutter:
     - assets/images/ic_action_reset.png
     - assets/images/ic_action_startnew.png
     - assets/images/ic_action_rank.png
+    - assets/images/ic_action_add.png
     - assets/images/ic_manage.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
