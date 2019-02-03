@@ -8,6 +8,8 @@ import 'package:the_meeple/screens/add_score_screen.dart';
 import 'package:the_meeple/screens/scoring_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:the_meeple/utils/Views/emoji_picker_view.dart';
+import 'package:the_meeple/utils/Views/meeple_bottom_sheet.dart';
 
 class ScoringInherited extends InheritedWidget {
   final ScoringBloc bloc;
@@ -65,7 +67,7 @@ class ScoringScreenState extends State<ScoringScreen> {
 
   Widget titleLabel() {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, top: 30.0),
+      padding: const EdgeInsets.only(left: 16.0, top: 30.0, bottom: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -93,7 +95,14 @@ class ScoringScreenState extends State<ScoringScreen> {
               )),
             ),
             onPressed: () {
-              _bloc.startNew.add(null);
+              showModalBottomSheet(context: context, builder: (BuildContext context) {
+                return MeepleBottomSheet(content: EmojiPickerView(),);
+              });
+//              showDialog(
+//                  context: context,
+//                  builder: (BuildContext context) {
+//                    return MeepleAlert(bloc: _bloc);
+//                  });
             },
           )
         ],
@@ -169,6 +178,110 @@ class ScoringScreenState extends State<ScoringScreen> {
   }
 }
 
+class MeepleAlert extends StatelessWidget {
+  const MeepleAlert({
+    Key key,
+    @required ScoringBloc bloc,
+  }) : _bloc = bloc, super(key: key);
+
+  final ScoringBloc _bloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        "Just in case \u{1F600}",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      contentPadding: EdgeInsets.fromLTRB(14, 20, 14, 24),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: Text(
+              "Are you sure you want to start a new game? All current scores will be lost.",
+              style: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+            height: 36,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Flexible(
+                child: FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: EdgeInsets.all(0),
+                    child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                          color: MeepleColors.borderGray,
+                          borderRadius:
+                              BorderRadius.circular(6.0)),
+                      child: Center(
+                          child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: MeepleColors.primaryBlue,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    )),
+                flex: 4,
+              ),
+              Container(
+                width: 12,
+              ),
+              Flexible(
+                child: FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _bloc.startNew.add(null);
+                    },
+                    padding: EdgeInsets.all(0),
+                    child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                          color: MeepleColors.primaryBlue,
+                          borderRadius:
+                              BorderRadius.circular(6.0)),
+                      child: Center(
+                          child: Text(
+                        "Yes, start new",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    )),
+                flex: 5,
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: _BottomButton(
+              image: AssetImage('assets/images/ic_action_save.png'),
+              title: 'Save score to record',
+              pressCallback: () {},
+            ),
+          ),
+        ],
+      ),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6))),
+    );
+  }
+}
+
 class _PlayerListEmptyView extends StatelessWidget {
   final VoidCallback _onAddPlayersCallback;
 
@@ -188,7 +301,7 @@ class _PlayerListEmptyView extends StatelessWidget {
       padding: const EdgeInsets.only(top: 50.0),
       child: ConstrainedBox(
         constraints: BoxConstraints.expand(height: 56.0),
-        child: RaisedButton(
+        child: FlatButton(
             child: Text(
               '\u{FF0B} Add player',
               style: TextStyle(
@@ -328,61 +441,38 @@ class _BottomButtons extends StatelessWidget {
             showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
-                  return Container(
-                    height: 375,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Container(
-                          height: 44,
-                          decoration: BoxDecoration(
-                              border: BorderDirectional(
-                                  bottom: BorderSide(
-                                      width: 1,
-                                      color: Color.fromARGB(40, 0, 0, 0)))),
-                          child: Center(
-                              child: Text(
-                            "Manage scores",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          )),
-                        ),
-                        Container(height: 10,),
-                        ListView(
-                          shrinkWrap: true,
-                          children: <Widget>[
-                            _ActionCell(
-                              image: Image.asset(
-                                  "assets/images/ic_action_reset.png"),
-                              title: "Reset all to 0",
-                              pressCallback: () {
-                                bloc.resetScores.add(null);
-                                Navigator.pop(context);
-                              },
-                            ),
-                            _ActionCell(
-                              image:
-                                  Image.asset("assets/images/ic_action_add.png"),
-                              title: "Add player",
-                              pressCallback: () {
-                                Navigator.pop(context);
-                                _onAddPlayersCallback();
-                              },
-                            ),
-                            _ActionCell(
-                              image:
-                                  Image.asset("assets/images/ic_action_rank.png"),
-                              title: "Rank by score",
-                              pressCallback: () {
-                                bloc.rankScores.add(null);
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
+                  return MeepleBottomSheet(content: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      _ActionCell(
+                        image: Image.asset(
+                            "assets/images/ic_action_reset.png"),
+                        title: "Reset all to 0",
+                        pressCallback: () {
+                          bloc.resetScores.add(null);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      _ActionCell(
+                        image: Image.asset(
+                            "assets/images/ic_action_add.png"),
+                        title: "Add player",
+                        pressCallback: () {
+                          Navigator.pop(context);
+                          _onAddPlayersCallback();
+                        },
+                      ),
+                      _ActionCell(
+                        image: Image.asset(
+                            "assets/images/ic_action_rank.png"),
+                        title: "Rank by score",
+                        pressCallback: () {
+                          bloc.rankScores.add(null);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),);
                 });
           },
         ),
@@ -407,6 +497,7 @@ class _BottomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Image(
             image: image,
@@ -499,7 +590,7 @@ class _PlayerCell extends StatelessWidget {
           height: 51.0,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(const Radius.circular(4.0)),
+            borderRadius: BorderRadius.circular(4.0),
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 8, right: 24),
@@ -509,7 +600,7 @@ class _PlayerCell extends StatelessWidget {
                 Expanded(
                     child: Text(
                   _player.name,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 )),
                 Text(
                   "$_score",

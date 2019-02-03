@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:the_meeple/models/game.dart';
-import 'package:the_meeple/models/Group.dart';
 import 'package:the_meeple/models/player.dart';
 
 class Record {

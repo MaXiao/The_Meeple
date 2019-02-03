@@ -36,8 +36,7 @@ class PlayerScreen extends StatefulWidget {
 
 class AddPlayerScreenState extends State<PlayerScreen> {
   final _bloc = AddPlayerScreenBloc();
-  final _editController = TextEditingController();
-  final _focus = FocusNode();
+
   List<Player> _selectedPlayers;
 
   AddPlayerScreenState(this._selectedPlayers);
@@ -65,18 +64,7 @@ class AddPlayerScreenState extends State<PlayerScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 16, right: 16, top: 12, bottom: 12),
-                child: CupertinoTextField(
-                  decoration: BoxDecoration(color: Colors.white),
-                  placeholder: 'Add new player',
-                  focusNode: _focus,
-                  controller: _editController,
-                  onSubmitted: (name) {
-                    _editController.clear();
-                    _bloc.createPlayer.add(name);
-                    FocusScope.of(context).requestFocus(_focus);
-                  },
-                  textInputAction: TextInputAction.go,
-                ),
+                child: new _AddPlayerField(bloc: _bloc),
               ),
             ),
             Expanded(
@@ -104,6 +92,84 @@ class AddPlayerScreenState extends State<PlayerScreen> {
           )),
       middle: Text("All Player"),
       padding: const EdgeInsetsDirectional.only(start: 0, end: 0),
+    );
+  }
+}
+
+class _AddPlayerField extends StatefulWidget {
+   _AddPlayerField({
+    Key key,
+    @required AddPlayerScreenBloc bloc,
+  }) : _bloc = bloc, super(key: key);
+
+  final AddPlayerScreenBloc _bloc;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _AddPlayerFieldState();
+  }
+}
+
+class _AddPlayerFieldState extends State<_AddPlayerField> {
+  final _editController = TextEditingController();
+  final _focus = FocusNode();
+  OverlayEntry _cover;
+
+  @override
+  void initState() {
+    _focus.addListener(() {
+      if (_cover == null) {
+        _cover = _createCover();
+      }
+
+      if (_focus.hasFocus) {
+        Overlay.of(context).insert(_cover);
+      } else {
+        _cover.remove();
+      }
+    });
+  }
+
+  OverlayEntry _createCover() {
+    RenderBox renderBox = context.findRenderObject();
+    var size = renderBox.size;
+    var offset = renderBox.localToGlobal(Offset.zero);
+
+    return OverlayEntry(
+        builder: (context) => Positioned(
+          left: 0,
+          top: offset.dy + size.height + 10,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: GestureDetector(
+            onTap: () {
+              _focus.unfocus();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: MeepleColors.overlayGrey,
+              ),
+            ),
+          ),
+        )
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final _bloc = AddPlayerInherited.of(context).bloc;
+
+    return CupertinoTextField(
+      decoration: BoxDecoration(color: Colors.white),
+      placeholder: 'Add new player',
+      focusNode: _focus,
+      controller: _editController,
+      onSubmitted: (name) {
+        _editController.clear();
+        _bloc.createPlayer.add(name);
+        FocusScope.of(context).requestFocus(_focus);
+      },
+      textInputAction: TextInputAction.go,
     );
   }
 }

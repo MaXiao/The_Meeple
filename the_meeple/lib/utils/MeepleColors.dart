@@ -9,4 +9,5 @@ class MeepleColors {
   static const Color borderGray = Color(0xFFF0F3FB);
   static const Color actionYellow = Color(0xfff2b544);
   static const Color actionRed = Color(0xffd93332);
+  static const Color overlayGrey = Color(0x80020921);
 }
