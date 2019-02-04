@@ -15,6 +15,7 @@ class AddPlayerScreenBloc {
   final StreamController<List<Player>> _playersSelectionController = StreamController<List<Player>>();
   final StreamController<Player> _playerSelectionToggleController = StreamController<Player>();
   final StreamController<String> _playerCreationController = StreamController<String>();
+  final StreamController<bool> _toggleCancelButton = StreamController<bool>();
 
   AddPlayerScreenBloc() {
     DBHelper().getPlayers().then((players) {
@@ -60,14 +61,16 @@ class AddPlayerScreenBloc {
     _playersSelectionController.close();
     _playerSelectionToggleController.close();
     _playerCreationController.close();
+    _toggleCancelButton.close();
   }
 
   Sink<List<Player>> get selectPlayers => _playersSelectionController.sink;
   Sink<Player> get toggleSelection => _playerSelectionToggleController.sink;
   Sink<String> get createPlayer => _playerCreationController.sink;
+  Sink<bool> get toggleCancelBtn => _toggleCancelButton.sink;
 
   Stream<List<Player>> get players => _playersHolder.stream;
   Stream<List<Player>> get selectedPlayers => _selectedPlayersHolder.stream;
   Stream<String> get toast => _toastMessage.stream;
-
+  Stream<bool> get showCancelBtn => _toggleCancelButton.stream;
 }

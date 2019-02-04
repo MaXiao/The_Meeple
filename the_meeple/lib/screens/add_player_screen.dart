@@ -10,6 +10,7 @@ class AddPlayerInherited extends InheritedWidget {
   final List<Player> selectedPlayers;
   final AddPlayerScreenBloc bloc;
 
+
   AddPlayerInherited(
       {Key key, @required this.bloc, @required this.selectedPlayers, @required Widget child})
       : super(key: key, child: child);
@@ -36,7 +37,6 @@ class PlayerScreen extends StatefulWidget {
 
 class AddPlayerScreenState extends State<PlayerScreen> {
   final _bloc = AddPlayerScreenBloc();
-
   List<Player> _selectedPlayers;
 
   AddPlayerScreenState(this._selectedPlayers);
@@ -64,13 +64,12 @@ class AddPlayerScreenState extends State<PlayerScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 16, right: 16, top: 12, bottom: 12),
-                child: new _AddPlayerField(bloc: _bloc),
+                child: new _AddPlayerField(),
               ),
             ),
             Expanded(
               child: _PlayerList(),
             ),
-            _AddButton(),
           ],
         )),
       ),
@@ -79,31 +78,56 @@ class AddPlayerScreenState extends State<PlayerScreen> {
 
   Widget _navbar() {
     return CupertinoNavigationBar(
-      leading: FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text(
-            "Cancel",
-            style: TextStyle(
-                color: MeepleColors.primaryBlue,
-                fontSize: 16,
-                fontWeight: FontWeight.bold),
-          )),
+      automaticallyImplyLeading: false,
+      leading: StreamBuilder(
+        stream: _bloc.showCancelBtn,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return snapshot.data ? FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(
+                      color: MeepleColors.primaryBlue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                )) : EmptyView();
+          } else {
+            return EmptyView();
+          }
+        },
+      ),
       middle: Text("All Player"),
+      trailing: StreamBuilder<List<Player>>(
+        stream: _bloc.selectedPlayers,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data.isNotEmpty) {
+            final count = snapshot.data.length;
+            return FlatButton(
+              child: Text(
+                "Done($count)",
+                style: TextStyle(
+                    color: MeepleColors.primaryBlue,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {
+                Navigator.pop(context, snapshot.data);
+              },
+            );
+          } else {
+            return EmptyView();
+          }
+        },
+      ),
       padding: const EdgeInsetsDirectional.only(start: 0, end: 0),
     );
   }
 }
 
 class _AddPlayerField extends StatefulWidget {
-   _AddPlayerField({
-    Key key,
-    @required AddPlayerScreenBloc bloc,
-  }) : _bloc = bloc, super(key: key);
-
-  final AddPlayerScreenBloc _bloc;
-
   @override
   State<StatefulWidget> createState() {
     return _AddPlayerFieldState();
@@ -117,15 +141,21 @@ class _AddPlayerFieldState extends State<_AddPlayerField> {
 
   @override
   void initState() {
+    super.initState();
+
     _focus.addListener(() {
+      final bloc = AddPlayerInherited.of(context).bloc;
+
       if (_cover == null) {
         _cover = _createCover();
       }
 
       if (_focus.hasFocus) {
         Overlay.of(context).insert(_cover);
+        bloc.toggleCancelBtn.add(false);
       } else {
         _cover.remove();
+        bloc.toggleCancelBtn.add(true);
       }
     });
   }
