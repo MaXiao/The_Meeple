@@ -108,6 +108,7 @@ class _ScoreBody extends StatelessWidget {
     final selectedPlayer = AddScoreInherited.of(context).player;
     final record = AddScoreInherited.of(context).record;
     final bloc = AddScoreInherited.of(context).bloc;
+    final focusNodes = Map<int, FocusNode>();
 
     return StreamBuilder(
         stream: bloc.currentRecord,
@@ -121,6 +122,9 @@ class _ScoreBody extends StatelessWidget {
               controller: controller,
               itemBuilder: (context, position) {
                 final player = record.players[position % record.players.length];
+                final focus = FocusNode();
+                focusNodes[position] = focus;
+
                 return Padding(
                   padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
                   child: Column(
@@ -132,13 +136,19 @@ class _ScoreBody extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 28, fontWeight: FontWeight.bold),
                       ),
-                      _ScoreInputField(player),
+                      _ScoreInputField(player, focus),
                       _AddButtons(player: player),
                     ],
                   ),
                 );
               },
               itemCount: null,
+              onPageChanged: (position) {
+                final focus = focusNodes[position];
+                if (focus != null) {
+                  FocusScope.of(context).requestFocus(focus);
+                }
+              },
             );
           } else {
             return EmptyView();
@@ -201,21 +211,22 @@ class _TopRow extends StatelessWidget {
 
 class _ScoreInputField extends StatefulWidget {
   final Player _player;
+  final FocusNode _focus;
 
-  _ScoreInputField(this._player);
+  _ScoreInputField(this._player, this._focus);
 
   @override
   State<StatefulWidget> createState() {
-    return _ScoreInputFieldState(_player);
+    return _ScoreInputFieldState(_player, _focus);
   }
 }
 
 class _ScoreInputFieldState extends State<_ScoreInputField> {
   final _editController = TextEditingController();
-  final _focus = FocusNode();
+  final FocusNode _focus;
   final Player _player;
 
-  _ScoreInputFieldState(this._player);
+  _ScoreInputFieldState(this._player, this._focus);
 
   @override
   Widget build(BuildContext context) {
@@ -237,6 +248,7 @@ class _ScoreInputFieldState extends State<_ScoreInputField> {
                 height: 54,
                 width: 160,
                 child: CupertinoTextField(
+                  autofocus: true,
                   decoration: BoxDecoration(color: Colors.white),
                   placeholder: 'Enter score',
                   focusNode: _focus,
