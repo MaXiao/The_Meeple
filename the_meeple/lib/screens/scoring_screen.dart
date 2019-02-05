@@ -95,9 +95,13 @@ class ScoringScreenState extends State<ScoringScreen> {
               )),
             ),
             onPressed: () {
-              showModalBottomSheet(context: context, builder: (BuildContext context) {
-                return MeepleBottomSheet(content: EmojiPickerView(),);
-              });
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return MeepleBottomSheet(
+                      content: EmojiPickerView(),
+                    );
+                  });
 //              showDialog(
 //                  context: context,
 //                  builder: (BuildContext context) {
@@ -182,7 +186,8 @@ class MeepleAlert extends StatelessWidget {
   const MeepleAlert({
     Key key,
     @required ScoringBloc bloc,
-  }) : _bloc = bloc, super(key: key);
+  })  : _bloc = bloc,
+        super(key: key);
 
   final ScoringBloc _bloc;
 
@@ -192,8 +197,7 @@ class MeepleAlert extends StatelessWidget {
       title: Text(
         "Just in case \u{1F600}",
         textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
       contentPadding: EdgeInsets.fromLTRB(14, 20, 14, 24),
       content: Column(
@@ -204,8 +208,7 @@ class MeepleAlert extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8, right: 8),
             child: Text(
               "Are you sure you want to start a new game? All current scores will be lost.",
-              style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Container(
@@ -224,8 +227,7 @@ class MeepleAlert extends StatelessWidget {
                       height: 54,
                       decoration: BoxDecoration(
                           color: MeepleColors.borderGray,
-                          borderRadius:
-                              BorderRadius.circular(6.0)),
+                          borderRadius: BorderRadius.circular(6.0)),
                       child: Center(
                           child: Text(
                         "Cancel",
@@ -251,8 +253,7 @@ class MeepleAlert extends StatelessWidget {
                       height: 54,
                       decoration: BoxDecoration(
                           color: MeepleColors.primaryBlue,
-                          borderRadius:
-                              BorderRadius.circular(6.0)),
+                          borderRadius: BorderRadius.circular(6.0)),
                       child: Center(
                           child: Text(
                         "Yes, start new",
@@ -441,38 +442,40 @@ class _BottomButtons extends StatelessWidget {
             showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
-                  return MeepleBottomSheet(content: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      _ActionCell(
-                        image: Image.asset(
-                            "assets/images/ic_action_reset.png"),
-                        title: "Reset all to 0",
-                        pressCallback: () {
-                          bloc.resetScores.add(null);
-                          Navigator.pop(context);
-                        },
-                      ),
-                      _ActionCell(
-                        image: Image.asset(
-                            "assets/images/ic_action_add.png"),
-                        title: "Add player",
-                        pressCallback: () {
-                          Navigator.pop(context);
-                          _onAddPlayersCallback();
-                        },
-                      ),
-                      _ActionCell(
-                        image: Image.asset(
-                            "assets/images/ic_action_rank.png"),
-                        title: "Rank by score",
-                        pressCallback: () {
-                          bloc.rankScores.add(null);
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),);
+                  return MeepleBottomSheet(
+                    content: ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        _ActionCell(
+                          image: AssetImage("assets/images/ic_action_reset.png"),
+                          title: "Reset all to 0",
+                          color: MeepleColors.actionYellow,
+                          pressCallback: () {
+                            bloc.resetScores.add(null);
+                            Navigator.pop(context);
+                          },
+                        ),
+                        _ActionCell(
+                          image: AssetImage("assets/images/ic_action_add.png"),
+                          title: "Add player",
+                          color: MeepleColors.actionGreen,
+                          pressCallback: () {
+                            Navigator.pop(context);
+                            _onAddPlayersCallback();
+                          },
+                        ),
+                        _ActionCell(
+                          image: AssetImage("assets/images/ic_action_rank.png"),
+                          title: "Rank by score",
+                          color: MeepleColors.primaryBlue,
+                          pressCallback: () {
+                            bloc.rankScores.add(null);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 });
           },
         ),
@@ -525,31 +528,45 @@ class _ActionCell extends StatelessWidget {
     Key key,
     @required this.image,
     @required this.title,
+    @required this.color,
     @required this.pressCallback,
   }) : super(key: key);
 
   final VoidCallback pressCallback;
-  final Widget image;
+  final ImageProvider image;
   final String title;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 12),
-            child: image,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: FlatButton(
+        color: color,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        child: Container(
+          height: 51,
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 12, right: 8),
+                child: ImageIcon(
+                  image,
+                  color: Colors.white,
+                ),
+              ),
+              Text(title,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
           ),
-          Text(title,
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              )),
-        ],
+        ),
+        onPressed: pressCallback,
+        padding: EdgeInsets.all(0),
       ),
-      onPressed: pressCallback,
-      padding: EdgeInsets.all(0),
     );
   }
 }
