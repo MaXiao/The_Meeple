@@ -73,6 +73,7 @@ class AddScoreScreenState extends State<AddScoreScreen> {
 
   Widget _navbar(BuildContext context) {
     return CupertinoNavigationBar(
+      backgroundColor: Colors.white,
       leading: FlatButton(
           onPressed: () {
             Navigator.pop(context);
@@ -121,21 +122,18 @@ class _ScoreBody extends StatelessWidget {
               itemBuilder: (context, position) {
                 final player = record.players[position % record.players.length];
                 return Padding(
-                  padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+                  padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       _TopRow(controller: controller, player: player, position: position),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12, bottom: 20),
-                        child: Text(
-                          "${record.scores[player]}",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
+                      Text(
+                        "${record.scores[player]}",
+                        style: TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.bold),
                       ),
-                      _AddButtons(player: player),
                       _ScoreInputField(player),
+                      _AddButtons(player: player),
                     ],
                   ),
                 );
@@ -237,6 +235,7 @@ class _ScoreInputFieldState extends State<_ScoreInputField> {
             children: <Widget>[
               Container(
                 height: 54,
+                width: 160,
                 child: CupertinoTextField(
                   decoration: BoxDecoration(color: Colors.white),
                   placeholder: 'Enter score',
@@ -307,19 +306,16 @@ class _SignButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints.expand(height: 54),
-      child: Container(
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6))),
-        child: FlatButton(
-          color: MeepleColors.primaryBlue,
-          disabledColor: MeepleColors.bgGray,
-          child: Text(
-            sign,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
-          ),
-          onPressed: isEnabled ? onPressed : null,
+      child: FlatButton(
+        color: MeepleColors.primaryBlue,
+        disabledColor: MeepleColors.bgGray,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        child: Text(
+          sign,
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
         ),
+        onPressed: isEnabled ? onPressed : null,
       ),
     );
   }
@@ -337,10 +333,6 @@ class _AddButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 78,
-      decoration: BoxDecoration(
-        color: MeepleColors.paleGray,
-        borderRadius: BorderRadius.all(Radius.circular(7)),
-      ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
         child: Row(
@@ -380,7 +372,7 @@ class _AddButton extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: MeepleColors.paleBlue,
               borderRadius: BorderRadius.all(Radius.circular(6))),
           child: Center(
             child: Text(
