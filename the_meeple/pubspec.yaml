@@ -44,6 +44,7 @@ flutter:
     - assets/images/ic_add.png
     - assets/images/ic_add_blue.png
     - assets/images/ic_manage.png
+    - assets/images/ic_close.png
     - assets/images/chevron_right.png
     - assets/images/ic_action_save.png
     - assets/images/ic_action_reset.png

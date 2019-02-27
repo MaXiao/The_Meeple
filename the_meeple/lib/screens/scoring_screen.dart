@@ -10,6 +10,7 @@ import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:the_meeple/utils/Views/emoji_picker_view.dart';
 import 'package:the_meeple/utils/Views/meeple_bottom_sheet.dart';
+import 'package:the_meeple/utils/Views/toast.dart';
 
 class ScoringInherited extends InheritedWidget {
   final ScoringBloc bloc;
@@ -95,18 +96,19 @@ class ScoringScreenState extends State<ScoringScreen> {
               )),
             ),
             onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return MeepleBottomSheet(
-                      content: EmojiPickerView(),
-                    );
-                  });
+//              showModalBottomSheet(
+//                  context: context,
+//                  builder: (BuildContext context) {
+//                    return MeepleBottomSheet(
+//                      content: EmojiPickerView(),
+//                    );
+//                  });
 //              showDialog(
 //                  context: context,
 //                  builder: (BuildContext context) {
 //                    return MeepleAlert(bloc: _bloc);
 //                  });
+            showToast(context, "Player Added");
             },
           )
         ],

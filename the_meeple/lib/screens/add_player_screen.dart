@@ -5,6 +5,7 @@ import 'package:the_meeple/models/player.dart';
 import 'package:the_meeple/screens/add_player_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:the_meeple/utils/Views/empty_view.dart';
+import 'package:the_meeple/utils/Views/toast.dart';
 
 class AddPlayerInherited extends InheritedWidget {
   final List<Player> selectedPlayers;
@@ -48,6 +49,17 @@ class AddPlayerScreenState extends State<PlayerScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // toast handling
+    _bloc.toast.listen((msg) {
+      showToast(context, msg);
+    });
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     _bloc.selectPlayers.add(_selectedPlayers);
 
@@ -81,6 +93,7 @@ class AddPlayerScreenState extends State<PlayerScreen> {
       automaticallyImplyLeading: false,
       leading: StreamBuilder(
         stream: _bloc.showCancelBtn,
+        initialData: true,
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             return snapshot.data ? FlatButton(
@@ -116,6 +129,7 @@ class AddPlayerScreenState extends State<PlayerScreen> {
               onPressed: () {
                 Navigator.pop(context, snapshot.data);
               },
+
             );
           } else {
             return EmptyView();
