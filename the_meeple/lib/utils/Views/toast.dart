@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:the_meeple/utils/Views/empty_view.dart';
 
-class Toast extends StatefulWidget {
-  final String title;
+class Toast extends StatelessWidget {
+  final String content;
+  final ToastAction action;
   final Color backgroundColor;
+  final Duration duration;
 
   Toast({
     Key key,
-    this.title,
+    this.content,
+    this.action,
+    this.duration = ToastDurationShort,
     this.backgroundColor = Colors.black,
-  });
+  }) : assert(content != null), super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _ToastState();
-  }
+  static const ToastDurationShort = Duration(seconds: 2);
+  static const ToastDurationLong = Duration(seconds: 4);
+  static const ToastDurationExtraLong = Duration(seconds: 6);
 
-  static final ToastDurationShort = Duration(seconds: 2);
-  static final ToastDurationLong = Duration(seconds: 4);
-  static final ToastDurationExtraLong = Duration(seconds: 6);
-}
-
-class _ToastState extends State<Toast> {
   @override
   Widget build(BuildContext context) {
     final insets = MediaQuery.of(context).viewInsets;
@@ -35,7 +33,7 @@ class _ToastState extends State<Toast> {
           child: Container(
             width: size.width - 32,
             decoration: BoxDecoration(
-                color: widget.backgroundColor,
+                color: backgroundColor,
                 borderRadius: BorderRadius.circular(6)),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -45,16 +43,11 @@ class _ToastState extends State<Toast> {
                 children: <Widget>[
                   Flexible(
                     child: Text(
-                      widget.title,
+                      content,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  IconButton(
-                    icon: Image.asset('assets/images/ic_close.png'),
-                    onPressed: () {
-                      hideToast(context);
-                    },
-                  )
+                  action != null ? action : EmptyView(),
                 ],
               ),
             ),
@@ -63,12 +56,51 @@ class _ToastState extends State<Toast> {
   }
 }
 
+class ToastAction extends StatefulWidget {
+  final String label;
+  final Widget icon;
+  final VoidCallback onPressed;
+
+  const ToastAction({
+    Key key,
+    this.label,
+    this.icon,
+    @required this.onPressed}) : assert(label != null || icon != null), assert(onPressed != null), super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ToastActionState();
+}
+
+class _ToastActionState extends State<ToastAction> {
+  bool _haveTriggeredAction = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.label != null) {
+      return FlatButton(onPressed:  _haveTriggeredAction ? null : _handlePressed, child: Text(widget.label),);
+    } else {
+      return IconButton(onPressed: _haveTriggeredAction ? null : _handlePressed, icon: widget.icon);
+    }
+  }
+
+  void _handlePressed() {
+    if (_haveTriggeredAction) {
+      return;
+    }
+    setState(() {
+      _haveTriggeredAction = true;
+    });
+    widget.onPressed();
+    hideToast(context);
+  }
+}
+
 showToast(BuildContext context, String title,
-    {Color backgroundColor: Colors.black}) async {
+    {Color backgroundColor: Colors.black, }) async {
   final overlay = Overlay.of(context);
 
   final entry = OverlayEntry(builder: (BuildContext context) {
-    return Toast(title: title, backgroundColor: backgroundColor);
+    return Toast(content: title, backgroundColor: backgroundColor);
     ;
   });
 

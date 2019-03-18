@@ -38,6 +38,16 @@ class DBHelper {
     });
   }
 
+  Future<bool> removePlayer(Player p) async {
+    var dbClient = await db;
+
+    final result = await dbClient.transaction((txn) async {
+      return await txn.rawDelete('DELETE FROM Player WHERE NAME = \"${p.name}"');
+    });
+
+    return result > 0;
+  }
+
   Future<List<Player>> getPlayers() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Player');

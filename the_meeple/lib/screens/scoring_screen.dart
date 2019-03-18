@@ -8,7 +8,9 @@ import 'package:the_meeple/screens/add_score_screen.dart';
 import 'package:the_meeple/screens/scoring_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:the_meeple/utils/Views/SlidableCell.dart';
 import 'package:the_meeple/utils/Views/emoji_picker_view.dart';
+import 'package:the_meeple/utils/Views/meeple_alert_view.dart';
 import 'package:the_meeple/utils/Views/meeple_bottom_sheet.dart';
 import 'package:the_meeple/utils/Views/toast.dart';
 
@@ -103,12 +105,12 @@ class ScoringScreenState extends State<ScoringScreen> {
 //                      content: EmojiPickerView(),
 //                    );
 //                  });
-//              showDialog(
-//                  context: context,
-//                  builder: (BuildContext context) {
-//                    return MeepleAlert(bloc: _bloc);
-//                  });
-            showToast(context, "Player Added");
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return _RestartAlert(bloc: _bloc);
+                  });
+//            showToast(context, "Player Added");
             },
           )
         ],
@@ -184,8 +186,8 @@ class ScoringScreenState extends State<ScoringScreen> {
   }
 }
 
-class MeepleAlert extends StatelessWidget {
-  const MeepleAlert({
+class _RestartAlert extends StatelessWidget {
+  const _RestartAlert({
     Key key,
     @required ScoringBloc bloc,
   })  : _bloc = bloc,
@@ -195,93 +197,20 @@ class MeepleAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        "Just in case \u{1F600}",
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    return MeepleAlert(
+      title: "Just in case \u{1F600}",
+      content: "Are you sure you want to start a new game? All current scores will be lost.",
+      positiveAction: () { _bloc.startNew.add(null); },
+      positiveLabel: "Yes, start new",
+      bottomComponent: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: _BottomButton(
+          image: AssetImage('assets/images/ic_action_save.png'),
+          title: 'Save score to record',
+          pressCallback: () {},
+        ),
       ),
-      contentPadding: EdgeInsets.fromLTRB(14, 20, 14, 24),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: Text(
-              "Are you sure you want to start a new game? All current scores will be lost.",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            height: 36,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Flexible(
-                child: FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    padding: EdgeInsets.all(0),
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: MeepleColors.borderGray,
-                          borderRadius: BorderRadius.circular(6.0)),
-                      child: Center(
-                          child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: MeepleColors.primaryBlue,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    )),
-                flex: 4,
-              ),
-              Container(
-                width: 12,
-              ),
-              Flexible(
-                child: FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _bloc.startNew.add(null);
-                    },
-                    padding: EdgeInsets.all(0),
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: MeepleColors.primaryBlue,
-                          borderRadius: BorderRadius.circular(6.0)),
-                      child: Center(
-                          child: Text(
-                        "Yes, start new",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    )),
-                flex: 5,
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: _BottomButton(
-              image: AssetImage('assets/images/ic_action_save.png'),
-              title: 'Save score to record',
-              pressCallback: () {},
-            ),
-          ),
-        ],
-      ),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(6))),
-    );
+    ) ;
   }
 }
 
@@ -587,7 +516,7 @@ class _PlayerCell extends StatelessWidget {
       delegate: SlidableScrollDelegate(),
       secondaryActions: <Widget>[
         SlideAction(
-          child: _ActionButton(
+          child: ActionButton(
             color: MeepleColors.actionYellow,
             text: "Reset",
           ),
@@ -596,7 +525,7 @@ class _PlayerCell extends StatelessWidget {
           },
         ),
         SlideAction(
-          child: _ActionButton(
+          child: ActionButton(
             color: MeepleColors.actionRed,
             text: "Delete",
           ),
@@ -636,31 +565,4 @@ class _PlayerCell extends StatelessWidget {
   }
 }
 
-class _ActionButton extends StatelessWidget {
-  final Color color;
-  final String text;
 
-  const _ActionButton({
-    Key key,
-    @required this.color,
-    @required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5),
-      child: Container(
-        decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.all(const Radius.circular(6.0))),
-        child: Center(
-            child: Text(
-          text,
-          style: TextStyle(
-              color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-        )),
-      ),
-    );
-  }
-}

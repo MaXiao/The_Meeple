@@ -50,7 +50,7 @@ class AddPlayerScreenBloc {
       if (_players.contains(player)) {
         _toastMessage.sink.add("There is another recorded player named ${player.name}. ");
       } else {
-        Player.saveUser(name);
+        Player.createUser(name);
 
         _players.insert(0, player);
         _selectedPlayers.add(player);
