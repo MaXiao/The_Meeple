@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:the_meeple/models/player.dart';
 import 'package:the_meeple/screens/players/player_edit_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
+import 'package:the_meeple/utils/Views/empty_view.dart';
 import 'package:the_meeple/utils/Views/meeple_alert_view.dart';
+import 'package:the_meeple/utils/Views/toast.dart';
 import 'package:the_meeple/utils/emojis.dart';
 
 class PlayerEditScreen extends StatefulWidget {
@@ -21,14 +23,13 @@ class PlayerEditScreen extends StatefulWidget {
 class PlayerEditState extends State<PlayerEditScreen> {
   FocusNode _focus;
   TextEditingController _controller;
-  PlayerEditScreenBloc _bloc;
 
   @override
   void initState() {
     super.initState();
 
     _focus = FocusNode();
-    _controller = TextEditingController(text: "${widget.player.name}");
+    _controller = TextEditingController(text: widget.isCreating ? "" : "${widget.player.name}");
   }
 
   @override
@@ -37,19 +38,47 @@ class PlayerEditState extends State<PlayerEditScreen> {
       appBar: CupertinoNavigationBar(
         middle: Text(widget.isCreating ? "Add Player" : "Edit Player"),
         trailing: FlatButton(
-            onPressed: () {
-              _bloc.createPlayer.add(_controller.text);
-            },
-            child: Text(
-              "Done",
-              style: TextStyle(
-                  color: MeepleColors.primaryBlue,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            )),
+          onPressed: _controller.text.length == 0
+              ? null
+              : (widget.isCreating ? _createUser : _editUser),
+          child: Text(
+            "Done",
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
+          ),
+          textColor: MeepleColors.primaryBlue,
+          disabledTextColor: MeepleColors.textGray,
+        ),
       ),
       body: _buildBody(),
     );
+  }
+
+  _createUser() {
+    final username = _controller.text;
+    Player.checkAndcreateUser(username).then((player) {
+      if (player != null) {
+        Navigator.pop(context, true);
+        showToast(context, "Player added");
+      } else {
+        showToast(
+            context, "There is another recorded player named ${username}.");
+      }
+    });
+  }
+
+  _editUser() {
+    final username = _controller.text;
+    Player.checkAndUpdateUser(widget.player, username).then((player) {
+      if (player != null) {
+        Navigator.pop(context, player);
+        showToast(context, "Player changed");
+      } else {
+        showToast(
+            context, "There is another recorded player named ${username}.");
+      }
+    });
   }
 
   Column _buildBody() {
@@ -59,7 +88,7 @@ class PlayerEditState extends State<PlayerEditScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 24),
           child: Container(
-          padding: const EdgeInsets.all(2.0),
+            padding: const EdgeInsets.all(2.0),
             decoration: BoxDecoration(
               color: MeepleColors.primaryBlue, // border color
               shape: BoxShape.circle,
@@ -84,7 +113,6 @@ class PlayerEditState extends State<PlayerEditScreen> {
                 child: Container(
                   height: 56,
                   child: CupertinoTextField(
-                    onEditingComplete: () {},
                     autofocus: true,
                     placeholder: "Username",
                     decoration: BoxDecoration(
@@ -96,48 +124,54 @@ class PlayerEditState extends State<PlayerEditScreen> {
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
+                    onChanged: (newValue) {
+                      setState(() {});
+                    },
                   ),
                 ),
               ),
             )),
-        Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: FlatButton.icon(
-                padding: const EdgeInsets.symmetric(vertical: 24),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return _DeleteAlert(
-                          bloc: _bloc,
-                          player: widget.player,
-                        );
-                      });
-                },
-                icon: Image.asset("assets/images/ic_delete_bin.png"),
-                label: Text(
-                  "Delete player",
-                  style: TextStyle(color: MeepleColors.primaryBlue),
-                ),
-              ),
-            ),
-          ],
-        )
+        _delete()
       ],
     );
+  }
+
+  Widget _delete() {
+    return widget.isCreating
+        ? EmptyView()
+        : Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: FlatButton.icon(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return _DeleteAlert(
+                            player: widget.player,
+                          );
+                        });
+                  },
+                  icon: Image.asset("assets/images/ic_delete_bin.png"),
+                  label: Text(
+                    "Delete player",
+                    style: TextStyle(color: MeepleColors.primaryBlue),
+                  ),
+                ),
+              ),
+            ],
+          );
   }
 }
 
 class _DeleteAlert extends StatelessWidget {
   const _DeleteAlert({
     Key key,
-    @required this.bloc,
     @required this.player,
   }) : super(key: key);
 
-  final PlayerEditScreenBloc bloc;
   final Player player;
 
   @override
@@ -146,8 +180,12 @@ class _DeleteAlert extends StatelessWidget {
       title: "Are you sure?",
       content: "Delete a player will remove all his/her records.",
       positiveAction: () {
-        bloc.deletePlayer.add(player);
-        Navigator.pop(context);
+        player.delete().then((success) {
+          if (success) {
+            Navigator.pop(context);
+            Navigator.pop(context, true);
+          }
+        });
       },
       positiveLabel: "Yes",
     );

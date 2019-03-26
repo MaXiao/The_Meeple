@@ -1,17 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:the_meeple/models/player.dart';
 import 'package:the_meeple/screens/players/player_screen.dart';
 import 'package:the_meeple/screens/players/players_bloc.dart';
+import 'package:the_meeple/screens/players/profile_edit_screen.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
-import 'package:the_meeple/utils/Views/SlidableCell.dart';
 import 'package:the_meeple/utils/Views/empty_view.dart';
-import 'package:the_meeple/utils/Views/meeple_alert_view.dart';
 
-class PlayersScreen extends StatelessWidget {
+class PlayersScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _PlayersScreenState();
+  }
+}
+
+class _PlayersScreenState extends State<PlayersScreen> with RouteAware {
   final PlayersScreenBloc _bloc = PlayersScreenBloc();
+  final RouteObserver<PageRoute> routeObserver = RouteObserver();
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc.refresh();
+  }
+
+  @override
+  void didPushNext() {
+    debugPrint("push next");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +44,19 @@ class PlayersScreen extends StatelessWidget {
             child: StreamBuilder<List<Player>>(
               stream: _bloc.players,
               builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return EmptyView();
+                }
+
                 if (snapshot.hasData && snapshot.data.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, CupertinoPageRoute(builder: (context) => PlayerScreen(player: snapshot.data[index])));
+                        onTap: () async {
+                          final updated = await Navigator.push(context, CupertinoPageRoute(builder: (context) => PlayerScreen(player: snapshot.data[index])));
+                          if (updated == true) {
+                            _bloc.refresh();
+                          }
                         },
                         child: _PlayerCell(
                           bloc: _bloc,
@@ -53,8 +77,11 @@ class PlayersScreen extends StatelessWidget {
             color: Colors.white,
             child: Center(
               child: FlatButton(
-                  onPressed: () {
-                    _bloc.addPlayer();
+                  onPressed: () async {
+                    final added = await Navigator.push(context, CupertinoPageRoute(builder: (context) => PlayerEditScreen(isCreating: true,)));
+                    if (added) {
+                      _bloc.refresh();
+                    }
                   },
                   child: Container(
                     height: 54,
@@ -139,5 +166,3 @@ class _PlayerCell extends StatelessWidget {
     );
   }
 }
-
-

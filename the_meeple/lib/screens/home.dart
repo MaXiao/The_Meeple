@@ -63,7 +63,6 @@ class HomeScreen extends StatelessWidget {
 
   TextStyle buildTextStyle() {
     return TextStyle(
-//        color: MeepleColors.primaryBlue,
         fontSize: 12,
         fontWeight: FontWeight.bold);
   }

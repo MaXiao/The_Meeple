@@ -11,20 +11,21 @@ class PlayersScreenBloc {
   final StreamController<Player> _playerAdditionController = StreamController<Player>();
 
   PlayersScreenBloc() {
-    DBHelper().getPlayers().then((players) {
-      _playersHolder.add(players);
-      _players = players;
-    });
-
     _playerAdditionController.stream.listen((player) {
       _players.add(player);
       _playersHolder.add(_players);
     });
   }
 
-  void addPlayer() {
-    final p = Player("test", DateTime.now(), DateTime.now());
+  void addPlayer(Player p) {
     _playerAdditionController.add(p);
+  }
+
+  void refresh() {
+    DBHelper().getPlayers().then((players) {
+      _playersHolder.add(players);
+      _players = players;
+    });
   }
 
   dispose() {

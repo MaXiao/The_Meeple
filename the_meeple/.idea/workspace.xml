@@ -24,7 +24,7 @@
     <session id="-302519934">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="33" />
+          <entry key="project.closed" value="37" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.19" value="1" />
@@ -33,8 +33,9 @@
           <entry key="project.open.time.45" value="1" />
           <entry key="project.open.time.48" value="4" />
           <entry key="project.open.time.52" value="2" />
+          <entry key="project.open.time.53" value="1" />
           <entry key="project.open.time.56" value="1" />
-          <entry key="project.open.time.57" value="1" />
+          <entry key="project.open.time.57" value="3" />
           <entry key="project.open.time.58" value="1" />
           <entry key="project.open.time.59" value="1" />
           <entry key="project.open.time.60" value="2" />
@@ -47,33 +48,34 @@
           <entry key="project.open.time.71" value="1" />
           <entry key="project.open.time.75" value="2" />
           <entry key="project.open.time.8" value="1" />
+          <entry key="project.open.time.86" value="1" />
           <entry key="project.open.time.9" value="1" />
           <entry key="project.open.time.97" value="1" />
-          <entry key="project.opened" value="34" />
+          <entry key="project.opened" value="38" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dart" value="11937" />
+          <entry key="dart" value="13922" />
           <entry key="yaml" value="68" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Dart" value="11937" />
+          <entry key="Dart" value="13922" />
           <entry key="YAML" value="68" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="dart" value="224" />
+          <entry key="dart" value="266" />
           <entry key="png" value="4" />
           <entry key="yaml" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Dart" value="224" />
+          <entry key="Dart" value="266" />
           <entry key="Image" value="4" />
           <entry key="YAML" value="5" />
         </counts>
@@ -85,45 +87,33 @@
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/lib/screens/add_player_screen.dart">
+            <entry file="file://$PROJECT_DIR$/lib/screens/add_score_screen.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
-                  <folding>
-                    <element signature="e#0#40#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/lib/screens/players/player_edit_bloc.dart">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="375">
-                  <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-                  <folding>
-                    <element signature="e#1#21#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="3525">
+                  <caret line="243" column="24" selection-start-line="243" selection-start-column="24" selection-end-line="243" selection-end-column="24" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/lib/screens/add_score_screen.dart">
+            <entry file="file://$PROJECT_DIR$/lib/screens/players/players_screen.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="662">
-                  <caret line="279" column="30" lean-forward="true" selection-start-line="279" selection-start-column="30" selection-end-line="279" selection-end-column="30" />
+                <state relative-caret-position="471">
+                  <caret line="81" column="29" selection-start-line="81" selection-start-column="29" selection-end-line="81" selection-end-column="29" />
+                  <folding>
+                    <element signature="e#0#40#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/lib/screens/players/player_screen.dart">
+            <entry file="file://$PROJECT_DIR$/lib/screens/home.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="303">
-                  <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+                <state relative-caret-position="165">
+                  <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
                   <folding>
-                    <element signature="e#0#40#0" expanded="true" />
+                    <element signature="e#161#201#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -132,8 +122,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/models/player.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="510">
-                  <caret line="34" column="3" selection-start-line="34" selection-start-column="3" selection-end-line="34" selection-end-column="3" />
+                <state relative-caret-position="255">
+                  <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
                 </state>
               </provider>
             </entry>
@@ -141,8 +131,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/dataprovider/DBHelper.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="675">
-                  <caret line="50" column="30" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+                <state relative-caret-position="510">
+                  <caret line="39" selection-start-line="39" selection-end-line="39" />
                 </state>
               </provider>
             </entry>
@@ -150,7 +140,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/utils/Views/emoji_picker_view.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
+                <state relative-caret-position="165">
                   <caret line="12" column="72" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="72" />
                   <folding>
                     <element signature="e#0#40#0" expanded="true" />
@@ -169,10 +159,10 @@
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/lib/screens/players/players_screen.dart">
+            <entry file="file://$PROJECT_DIR$/lib/screens/players/player_screen.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1245">
-                  <caret line="116" column="17" lean-forward="true" selection-start-line="116" selection-start-column="17" selection-end-line="116" selection-end-column="17" />
+                <state relative-caret-position="165">
+                  <caret line="11" selection-start-line="11" selection-end-line="11" />
                   <folding>
                     <element signature="e#0#40#0" expanded="true" />
                   </folding>
@@ -183,10 +173,22 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/screens/add_player_bloc.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="257">
-                  <caret line="52" column="31" lean-forward="true" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+                <state relative-caret-position="540">
+                  <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
                   <folding>
                     <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/lib/screens/players/players_bloc.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="360">
+                  <caret line="24" selection-start-line="24" selection-end-line="24" />
+                  <folding>
+                    <element signature="e#1#21#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -195,8 +197,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/lib/screens/players/profile_edit_screen.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="246">
-                  <caret line="61" column="45" selection-start-line="61" selection-start-column="45" selection-end-line="61" selection-end-column="45" />
+                <state relative-caret-position="228">
+                  <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
                   <folding>
                     <element signature="e#0#40#0" expanded="true" />
                   </folding>
@@ -207,10 +209,22 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/screens/add_score_bloc.dart">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="330">
+                <state relative-caret-position="285">
                   <caret line="22" column="3" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
                   <folding>
                     <element signature="e#0#20#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/lib/utils/Views/toast.dart">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1425">
+                  <caret line="97" selection-start-line="97" selection-end-line="97" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -230,16 +244,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_ActionCell</find>
-      <find>imagetra</find>
-      <find>Image.asse</find>
-      <find>imageicon</find>
-      <find>overlay</find>
-      <find>overlayentry</find>
-      <find>m</find>
-      <find>SafeArea</find>
-      <find>_snackBars</find>
-      <find>cancel</find>
       <find>_toastMessage</find>
       <find>_bloc.toast</find>
       <find>iconbutton</find>
@@ -260,6 +264,16 @@
       <find>focusNodes</find>
       <find>cupertinotext</find>
       <find>enter score</find>
+      <find>navigator</find>
+      <find>lastPlayed</find>
+      <find>PlayersScreen</find>
+      <find>didChangeDependencies</find>
+      <find>routeaw</find>
+      <find>LifeCycleEventObserver</find>
+      <find>route</find>
+      <find>didpushnex</find>
+      <find>PlayerEditScreen</find>
+      <find>savep</find>
     </findStrings>
   </component>
   <component name="FlutterView" splitter-proportion="0.95896834" />
@@ -277,7 +291,6 @@
         <option value="$PROJECT_DIR$/lib/screens/scoring.dart" />
         <option value="$PROJECT_DIR$/lib/models/Record.dart" />
         <option value="$PROJECT_DIR$/lib/models/Player.dart" />
-        <option value="$PROJECT_DIR$/lib/main.dart" />
         <option value="$PROJECT_DIR$/lib/screens/add_score_bloc.dart" />
         <option value="$PROJECT_DIR$/lib/screens/scoring_bloc.dart" />
         <option value="$PROJECT_DIR$/lib/models/record.dart" />
@@ -289,123 +302,34 @@
         <option value="$PROJECT_DIR$/lib/utils/Views/toast.dart" />
         <option value="$PROJECT_DIR$/pubspec.yaml" />
         <option value="$PROJECT_DIR$/lib/screens/add_player_screen.dart" />
-        <option value="$PROJECT_DIR$/lib/screens/home.dart" />
         <option value="$PROJECT_DIR$/lib/utils/Views/SlidableCell.dart" />
         <option value="$PROJECT_DIR$/lib/screens/scoring_screen.dart" />
-        <option value="$PROJECT_DIR$/lib/dataprovider/DBHelper.dart" />
         <option value="$PROJECT_DIR$/lib/screens/players/player_screen_bloc.dart" />
-        <option value="$PROJECT_DIR$/lib/screens/players/player_screen.dart" />
-        <option value="$PROJECT_DIR$/lib/screens/players/players_screen.dart" />
-        <option value="$PROJECT_DIR$/lib/screens/players/players_bloc.dart" />
         <option value="$PROJECT_DIR$/lib/utils/Views/meeple_alert_view.dart" />
+        <option value="$PROJECT_DIR$/lib/screens/players/player_edit_bloc.dart" />
         <option value="$PROJECT_DIR$/lib/screens/add_player_bloc.dart" />
         <option value="$PROJECT_DIR$/lib/models/player.dart" />
-        <option value="$PROJECT_DIR$/lib/screens/players/player_edit_bloc.dart" />
+        <option value="$PROJECT_DIR$/lib/screens/players/players_bloc.dart" />
+        <option value="$PROJECT_DIR$/lib/main.dart" />
+        <option value="$PROJECT_DIR$/lib/dataprovider/DBHelper.dart" />
+        <option value="$PROJECT_DIR$/lib/screens/players/player_screen.dart" />
+        <option value="$PROJECT_DIR$/lib/screens/home.dart" />
         <option value="$PROJECT_DIR$/lib/screens/players/profile_edit_screen.dart" />
+        <option value="$PROJECT_DIR$/lib/screens/players/players_screen.dart" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="619" />
-    <option name="y" value="48" />
+    <option name="x" value="350" />
+    <option name="y" value="68" />
     <option name="width" value="2042" />
     <option name="height" value="1301" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="dataprovider" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="players" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="the_meeple" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-              <item name="Views" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-        <option name="show-excluded-files" value="false" />
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="the_meeple" type="58d84e3e:PackageViewProjectNode" />
-              <item name="the_meeple" type="616d4139:PackageViewModuleNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="58d84e3e:PackageViewProjectNode" />
-              <item name="the_meeple" type="616d4139:PackageViewModuleNode" />
-              <item name="screens" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="the_meeple" type="58d84e3e:PackageViewProjectNode" />
-              <item name="the_meeple" type="616d4139:PackageViewModuleNode" />
-              <item name="utils" type="1f31426a:PackageElementNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="android.project.structure.last.selected" value="SDK Location" />
@@ -497,9 +421,44 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="619" y="48" width="2042" height="1301" extended-state="0" />
+    <frame x="350" y="68" width="2042" height="1301" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.217" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Build Variants" order="3" side_tool="true" />
+      <window_info id="Captures" order="4" side_tool="true" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Image Layers" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32754344" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.22663358" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3490488" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Dart Analysis" order="7" weight="0.31679073" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.3283582" />
+      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Logcat" order="10" weight="0.3291874" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32890365" />
+      <window_info anchor="bottom" id="Messages" order="12" visible="true" weight="0.28866833" />
+      <window_info anchor="bottom" id="Android Profiler" order="13" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Flutter Performance" order="14" side_tool="true" weight="0.3291874" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Flutter Inspector" order="3" weight="0.163" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Device File Explorer" order="5" sideWeight="0.50866336" side_tool="true" />
+      <window_info anchor="right" id="Flutter Outline" order="6" sideWeight="0.49133664" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info anchor="right" id="Assistant" order="8" />
+      <window_info anchor="right" id="Palette&#9;" order="9" />
+    </layout>
+    <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.217" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
@@ -533,7 +492,7 @@
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info anchor="right" id="Assistant" order="8" />
       <window_info anchor="right" id="Palette&#9;" order="9" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -543,8 +502,39 @@
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/screens/players/players_screen.dart</url>
+          <line>56</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/screens/players/profile_edit_screen.dart</url>
+          <line>183</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="FlutterRunConfigurationType">
+        <watch expression="_history" language="Dart" />
+      </configuration>
+    </watches-manager>
+  </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>_history</expression-string>
+        <language-id>Dart</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>_listeners</expression-string>
+        <language-id>Dart</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>bloc.deletePlayer</expression-string>
         <language-id>Dart</language-id>
@@ -585,69 +575,9 @@
         <language-id>Dart</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>snapshot.data</expression-string>
-        <language-id>Dart</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/media_query.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="97" column="19" selection-start-line="97" selection-start-column="19" selection-end-line="97" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/basic.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="1588" column="8" selection-start-line="1588" selection-start-column="8" selection-end-line="1588" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/material/material.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="165" column="8" selection-start-line="165" selection-start-column="8" selection-end-line="165" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/framework.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="3641" column="8" selection-start-line="3641" selection-start-column="8" selection-end-line="3641" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/flutter/bin/cache/pkg/sky_engine/lib/async/schedule_microtask.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="49" column="4" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/flutter/bin/cache/pkg/sky_engine/lib/async/stream_impl.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="706" column="10" selection-start-line="706" selection-start-column="10" selection-end-line="706" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/flutter/bin/cache/pkg/sky_engine/lib/async/zone.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="1313" column="9" selection-start-line="1313" selection-start-column="9" selection-end-line="1313" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/images/ic_action_delete.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/images/ic_action_reset.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/overlay.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
@@ -742,26 +672,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/main.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="19" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/home.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="54" column="29" selection-start-line="54" selection-start-column="29" selection-end-line="54" selection-end-column="29" />
-          <folding>
-            <element signature="e#161#201#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/screens/scoring_screen.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2490">
@@ -773,19 +683,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/utils/Views/empty_view.dart">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/utils/Views/emoji_picker_view.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="72" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="72" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -838,117 +735,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/utils/Views/toast.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="863">
-          <caret line="79" column="19" selection-start-line="79" selection-start-column="19" selection-end-line="79" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/add_score_bloc.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="3" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/players/player_screen_bloc.dart">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/add_player_screen.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/utils/Views/meeple_alert_view.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="241">
           <caret line="54" column="45" lean-forward="true" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/players/players_bloc.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="60" selection-start-line="33" selection-start-column="60" selection-end-line="33" selection-end-column="60" />
-          <folding>
-            <element signature="e#1#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/players/players_screen.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1245">
-          <caret line="116" column="17" lean-forward="true" selection-start-line="116" selection-start-column="17" selection-end-line="116" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/dataprovider/DBHelper.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="50" column="30" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/add_player_bloc.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="52" column="31" lean-forward="true" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/models/player.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="3" selection-start-line="34" selection-start-column="3" selection-end-line="34" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/players/player_screen.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/players/player_edit_bloc.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-          <folding>
-            <element signature="e#1#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/add_score_screen.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="662">
-          <caret line="279" column="30" lean-forward="true" selection-start-line="279" selection-start-column="30" selection-end-line="279" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -959,10 +749,207 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/flutter/bin/cache/pkg/sky_engine/lib/core/sink.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="20" column="7" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/editable_text.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-359">
+          <caret line="58" column="6" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/flutter/bin/cache/pkg/sky_engine/lib/core/iterable.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="194" column="14" selection-start-line="194" selection-start-column="14" selection-end-line="194" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/sqflite-0.12.2+1/lib/src/exception.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1789">
+          <caret line="124" column="6" selection-start-line="124" selection-start-column="6" selection-end-line="124" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/players/player_screen_bloc.dart">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/add_player_screen.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="20" lean-forward="true" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/framework.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="3773" column="20" selection-start-line="3773" selection-start-column="20" selection-end-line="3773" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/cupertino/route.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="60" column="17" selection-start-line="60" selection-start-column="12" selection-end-line="60" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/players/player_edit_bloc.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <element signature="e#1#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/add_score_screen.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3525">
+          <caret line="243" column="24" selection-start-line="243" selection-start-column="24" selection-end-line="243" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/utils/Views/emoji_picker_view.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="12" column="72" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="72" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/utils/Views/empty_view.dart">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/add_player_bloc.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/add_score_bloc.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="22" column="3" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/utils/Views/toast.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1425">
+          <caret line="97" selection-start-line="97" selection-end-line="97" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/players/players_bloc.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#1#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/cupertino/tab_scaffold.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="94" column="8" selection-start-line="94" selection-start-column="8" selection-end-line="94" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/home.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <folding>
+            <element signature="e#161#201#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/players/player_screen.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/navigator.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="706">
+          <caret line="1210" column="14" selection-start-line="1210" selection-start-column="14" selection-end-line="1210" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/flutter/packages/flutter/lib/src/widgets/routes.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1132">
+          <caret line="1372" column="14" selection-start-line="1372" selection-start-column="14" selection-end-line="1372" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/dataprovider/DBHelper.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/models/player.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/screens/players/profile_edit_screen.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="61" column="45" selection-start-line="61" selection-start-column="45" selection-end-line="61" selection-end-column="45" />
+        <state relative-caret-position="228">
+          <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/players/players_screen.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="471">
+          <caret line="81" column="29" selection-start-line="81" selection-start-column="29" selection-end-line="81" selection-end-column="29" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>

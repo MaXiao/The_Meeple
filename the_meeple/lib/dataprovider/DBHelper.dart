@@ -26,7 +26,7 @@ class DBHelper {
   void _onCreate(Database db, int version) async {
     //create the table when creating db
     await db.execute(
-        "CREATE TABLE Player(id INTEGER PRIMARY KEY, name TEXT, created INTEGER, lastPlayed INTEGER )"
+        "CREATE TABLE Player(id INTEGER PRIMARY KEY, name TEXT, created INTEGER, last_played INTEGER )"
     );
   }
 
@@ -34,29 +34,26 @@ class DBHelper {
     var dbClient = await db;
     
     await dbClient.transaction((txn) async {
-      return await txn.rawInsert('INSERT INTO Player(name, created, lastPlayed) VALUES(\"${p.name}\", ${p.created.millisecondsSinceEpoch}, ${p.lastPlayed.millisecondsSinceEpoch})');
+      return await txn.rawInsert('INSERT INTO Player(name, created, last_played) VALUES(\"${p.name}\", ${p.created.millisecondsSinceEpoch}, ${p.lastPlayed.millisecondsSinceEpoch})');
     });
   }
 
   Future<bool> removePlayer(Player p) async {
     var dbClient = await db;
+    final result = await dbClient.delete("Player", where: "id = ?", whereArgs: [p.id]);
+    return result > 0;
+  }
 
-    final result = await dbClient.transaction((txn) async {
-      return await txn.rawDelete('DELETE FROM Player WHERE NAME = \"${p.name}"');
-    });
-
+  Future<bool> updatePlayer(Player p) async {
+    var dbClient = await db;
+    final result = await dbClient.update("Player", p.toMap(), where: "id = ?", whereArgs: [p.id]);
     return result > 0;
   }
 
   Future<List<Player>> getPlayers() async {
     var dbClient = await db;
+    //var result = await database.query("Player", columns: ["id", "name", "created", "last_played"]);
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Player');
-    List<Player> players = List();
-    list.forEach((map) =>
-        players.add(Player(map['name'],
-            DateTime.fromMillisecondsSinceEpoch(map['created']),
-            DateTime.fromMillisecondsSinceEpoch(map['lastPlayed'])))
-    );
-    return players;
+    return list.map((json) => Player.fromMap(json)).toList();
   }
 }

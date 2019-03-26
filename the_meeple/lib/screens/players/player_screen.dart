@@ -10,6 +10,8 @@ class PlayerScreen extends StatelessWidget {
 
   final Player player;
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

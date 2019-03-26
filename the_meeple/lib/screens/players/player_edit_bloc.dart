@@ -17,13 +17,7 @@ class PlayerEditScreenBloc {
     });
     
     _playerCreationController.stream.listen((name) {
-      Player.checkAndcreateUser(name).then((created) {
-        if (created) {
 
-        } else {
-          _toastMessage.sink.add("There is another recorded player named ${name}. ");
-        }
-      });
     });
   }
 

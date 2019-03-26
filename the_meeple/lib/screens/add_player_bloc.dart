@@ -45,7 +45,7 @@ class AddPlayerScreenBloc {
         return;
       }
 
-      final player = Player(name, DateTime.now(), DateTime.now());
+      final player = Player(name: name, created: DateTime.now(), lastPlayed: DateTime.now());
       
       if (_players.contains(player)) {
         _toastMessage.sink.add("There is another recorded player named ${player.name}. ");
