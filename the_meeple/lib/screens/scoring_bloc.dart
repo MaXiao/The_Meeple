@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:the_meeple/models/player_record.dart';
 import 'package:the_meeple/models/record.dart';
 import 'package:the_meeple/models/player.dart';
 
@@ -13,7 +14,7 @@ class ScoringBloc {
 
   final StreamController<List<Player>> _selectPlayers = StreamController<List<Player>>();
   final StreamController<Player> _removePlayer = StreamController<Player>();
-  final StreamController<LinkedHashMap<Player, int>> _updateScores = StreamController<LinkedHashMap<Player, int>>();
+  final StreamController<List<PlayerRecord>> _updateScores = StreamController<List<PlayerRecord>>();
   final StreamController<Player> _resetPlayer = StreamController<Player>();
   final StreamController<Null> _startNew = StreamController();
   final StreamController<Null> _resetScores = StreamController();
@@ -25,16 +26,16 @@ class ScoringBloc {
       _recordHolder.add(_record);
     });
 
-    _updateScores.stream.listen((scores) {
-      _record.scores = scores;
+    _updateScores.stream.listen((records) {
+      _record.playerRecords = records;
       _recordHolder.add(_record);
     });
     _removePlayer.stream.listen((player) {
-      _record.scores.remove(player);
+      _record.removePlayer(player);
       _recordHolder.add(_record);
     });
     _resetPlayer.stream.listen((player) {
-      _record.scores[player] = 0;
+      _record.resetScoreFor(player);
       _recordHolder.add(_record);
     });
     _startNew.stream.listen((_) {
@@ -66,7 +67,7 @@ class ScoringBloc {
 
   Sink<List<Player>> get selectPlayers => _selectPlayers.sink;
   Sink<Player> get removePlayer => _removePlayer.sink;
-  Sink<LinkedHashMap<Player, int>> get updateScore => _updateScores.sink;
+  Sink<List<PlayerRecord>> get updateScore => _updateScores.sink;
   Sink<Player> get resetPlayer => _resetPlayer.sink;
   Sink<Null> get startNew => _startNew.sink;
   Sink<Null> get resetScores => _resetScores.sink;

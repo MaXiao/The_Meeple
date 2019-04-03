@@ -151,6 +151,11 @@ class _PlayerCell extends StatelessWidget {
                       BorderSide(color: MeepleColors.paleGray, width: 2.0))),
           child: Row(
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Text(player.avatar, style: TextStyle(fontSize: 30),),
+              ),
+
               Expanded(
                 child: Text(
                   player.name,

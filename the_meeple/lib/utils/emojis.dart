@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Emojis {
   static List<String> _emojis = List();
   static int _start1 = 0x1F600;
@@ -7,5 +9,9 @@ class Emojis {
       _emojis.addAll(List<int>.generate(56, (index) => index + _start1).map((intValue) => String.fromCharCode(intValue)));
     }
     return _emojis;
+  }
+
+  static String get random {
+    return Emojis.list[Random.secure().nextInt(Emojis.list.length)];
   }
 }

@@ -132,7 +132,7 @@ class _ScoreBody extends StatelessWidget {
                     children: <Widget>[
                       _TopRow(controller: controller, player: player, position: position),
                       Text(
-                        "${record.scores[player]}",
+                        "${record.scoreFor(player)}",
                         style: TextStyle(
                             fontSize: 28, fontWeight: FontWeight.bold),
                       ),

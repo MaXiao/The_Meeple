@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:the_meeple/models/player.dart';
 import 'package:the_meeple/screens/players/player_edit_bloc.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
+import 'package:the_meeple/utils/Views/emoji_picker_view.dart';
 import 'package:the_meeple/utils/Views/empty_view.dart';
 import 'package:the_meeple/utils/Views/meeple_alert_view.dart';
+import 'package:the_meeple/utils/Views/meeple_bottom_sheet.dart';
 import 'package:the_meeple/utils/Views/toast.dart';
 import 'package:the_meeple/utils/emojis.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PlayerEditScreen extends StatefulWidget {
   PlayerEditScreen({Key key, this.isCreating, this.player}) : super(key: key);
@@ -23,6 +26,7 @@ class PlayerEditScreen extends StatefulWidget {
 class PlayerEditState extends State<PlayerEditScreen> {
   FocusNode _focus;
   TextEditingController _controller;
+  String avatar = "";
 
   @override
   void initState() {
@@ -30,6 +34,11 @@ class PlayerEditState extends State<PlayerEditScreen> {
 
     _focus = FocusNode();
     _controller = TextEditingController(text: widget.isCreating ? "" : "${widget.player.name}");
+    if (widget.isCreating) {
+      avatar = Emojis.random;
+    } else {
+      avatar = widget.player.avatar;
+    }
   }
 
   @override
@@ -57,7 +66,7 @@ class PlayerEditState extends State<PlayerEditScreen> {
 
   _createUser() {
     final username = _controller.text;
-    Player.checkAndcreateUser(username).then((player) {
+    Player.checkAndCreateUser(name: username, avatar: avatar).then((player) {
       if (player != null) {
         Navigator.pop(context, true);
         showToast(context, "Player added");
@@ -69,14 +78,15 @@ class PlayerEditState extends State<PlayerEditScreen> {
   }
 
   _editUser() {
-    final username = _controller.text;
-    Player.checkAndUpdateUser(widget.player, username).then((player) {
-      if (player != null) {
-        Navigator.pop(context, player);
-        showToast(context, "Player changed");
+    widget.player.name = _controller.text;
+    widget.player.avatar = avatar;
+    widget.player.checkAndUpdate().then((success) {
+      if (success) {
+        Navigator.pop(context, widget.player);
+        showToast(context, "Player updated");
       } else {
         showToast(
-            context, "There is another recorded player named ${username}.");
+            context, "There is another recorded player named ${_controller.text}.");
       }
     });
   }
@@ -87,18 +97,48 @@ class PlayerEditState extends State<PlayerEditScreen> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 24),
-          child: Container(
-            padding: const EdgeInsets.all(2.0),
-            decoration: BoxDecoration(
-              color: MeepleColors.primaryBlue, // border color
-              shape: BoxShape.circle,
-            ),
-            width: 64,
-            height: 64,
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Container(
-                  child: Text(Emojis.list[4], style: TextStyle(fontSize: 50))),
+          child: GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return MeepleBottomSheet(
+                      title: "Choose your avatar",
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Expanded(
+                            child: EmojiPickerView(onSelectEmoji: (emojiIndex) {
+                              setState(() {
+                                avatar = Emojis.list[emojiIndex];
+                              });
+                            },),
+                          ),
+                          FlatButton(onPressed: () async {
+                            final image = await ImagePicker.pickImage(source: ImageSource.camera);
+                          }, child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(color: MeepleColors.primaryBlue),
+                            child: Center(child: Text("Choose photo", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+                          ))
+                        ],
+                      ),
+                    );
+                  });
+            },
+            child: Container(
+              padding: const EdgeInsets.all(2.0),
+              decoration: BoxDecoration(
+                color: MeepleColors.primaryBlue, // border color
+                shape: BoxShape.circle,
+              ),
+              width: 64,
+              height: 64,
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Container(
+                    child: Text(avatar, style: TextStyle(fontSize: 50))),
+              ),
             ),
           ),
         ),

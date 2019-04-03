@@ -145,7 +145,7 @@ class ScoringScreenState extends State<ScoringScreen> {
   Widget byPlayer(BuildContext context) {
     return StreamBuilder<Record>(
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data.scores.isNotEmpty) {
+        if (snapshot.hasData && snapshot.data.playerRecords.isNotEmpty) {
           return Container(
             decoration: BoxDecoration(color: MeepleColors.paleGray),
             child: Padding(
@@ -315,7 +315,7 @@ class _PlayerList extends StatelessWidget {
                     onTap: () {
                       _updateScore(context, _record, p);
                     },
-                    child: _PlayerCell(p, _record.scores[p]));
+                    child: _PlayerCell(p, _record.scoreFor(p)));
               },
               separatorBuilder: (context, index) {
                 return Container(
@@ -340,7 +340,7 @@ class _PlayerList extends StatelessWidget {
             builder: (context) => AddScoreScreen(_record, player)));
 
     if (result is Record) {
-      bloc.updateScore.add(record.scores);
+      bloc.updateScore.add(record.playerRecords);
     }
   }
 }
@@ -374,6 +374,7 @@ class _BottomButtons extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return MeepleBottomSheet(
+                    title: "Manage scores",
                     content: ListView(
                       shrinkWrap: true,
                       children: <Widget>[

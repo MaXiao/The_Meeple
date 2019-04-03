@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:the_meeple/screens/record_screen.dart';
+import 'package:the_meeple/screens/records/record_screen.dart';
 import 'package:the_meeple/screens/scoring_screen.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
 import 'package:the_meeple/screens/players/players_screen.dart';

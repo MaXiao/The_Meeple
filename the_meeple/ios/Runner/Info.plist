@@ -41,5 +41,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Choose photo from your gallery</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Take photo to add to your record</string>
 </dict>
 </plist>

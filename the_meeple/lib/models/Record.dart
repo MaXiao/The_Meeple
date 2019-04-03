@@ -2,53 +2,61 @@ import 'dart:collection';
 
 import 'package:the_meeple/models/game.dart';
 import 'package:the_meeple/models/player.dart';
+import 'package:the_meeple/models/player_record.dart';
 
 class Record {
-  DateTime playDate;
+  DateTime date;
   Game game;
-  LinkedHashMap<Player, int> scores;
+  List<PlayerRecord> playerRecords;
 
-  List<Player> get players => scores.keys.toList();
+  List<Player> get players => playerRecords.map((record) => record.player).toList();
 
   Record() {
-    playDate = DateTime.now();
-    scores = LinkedHashMap();
+    date = DateTime.now();
+    playerRecords = List();
   }
 
   removePlayer(Player p) {
-    scores.remove(p);
+    playerRecords.removeWhere((record) => record.player == p);
   }
 
   addPlayers(List<Player> players) {
     players.forEach((p) {
-      if (!scores.containsKey(p)) {
-        scores[p] = 0;
+      if (!this.players.contains(p)) {
+        playerRecords.add(PlayerRecord(p));
       }
     });
   }
 
   reAddPlayers(List<Player> players) {
-    scores.clear();
+    reset();
     addPlayers(players);
   }
 
   changeScore(Player p, int delta) {
-    scores[p] += delta;
+    playerRecords.firstWhere((record) => record.player == p).score += delta;
   }
 
   resetScore() {
-    scores.forEach((p, _) {
-      scores[p] = 0;
+    playerRecords.forEach((record) {
+      record.score = 0;
+      record.note = null;
     });
   }
 
+  resetScoreFor(Player p) {
+    playerRecords.firstWhere((record) => record.player == p).score = 0;
+  }
+
+  scoreFor(Player p) {
+    return playerRecords.firstWhere((record) => record.player == p).score;
+  }
+
   reset() {
-    scores.clear();
+    playerRecords.clear();
   }
 
   sortByScore() {
-    final data = scores.entries.toList()..sort((e1, e2) =>
-        -e1.value.compareTo(e2.value));
-    scores = LinkedHashMap.fromEntries(data);
+    playerRecords.sort((a, b) => a.score.compareTo(b.score));
   }
 }

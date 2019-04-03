@@ -10,8 +10,6 @@ class PlayerScreen extends StatelessWidget {
 
   final Player player;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +43,7 @@ class PlayerScreen extends StatelessWidget {
             child: CircleAvatar(
               backgroundColor: Colors.white,
               child: Container(
-                  child: Text(Emojis.list[4], style: TextStyle(fontSize: 50))),
+                  child: Text(player.avatar, style: TextStyle(fontSize: 50))),
             ),
           ),
         ),

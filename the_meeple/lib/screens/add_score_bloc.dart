@@ -12,7 +12,7 @@ class AddScoreScreenBloc {
   AddScoreScreenBloc(this._record) {
     _changeScoreController.stream.listen((delta) {
       final player = delta.keys.first;
-      _record.scores[player] += delta[player];
+      _record.changeScore(player, delta[player]);
       _recordHolder.add(_record);
     });
   }

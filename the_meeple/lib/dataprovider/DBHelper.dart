@@ -26,16 +26,14 @@ class DBHelper {
   void _onCreate(Database db, int version) async {
     //create the table when creating db
     await db.execute(
-        "CREATE TABLE Player(id INTEGER PRIMARY KEY, name TEXT, created INTEGER, last_played INTEGER )"
+        "CREATE TABLE Player(id INTEGER PRIMARY KEY, name TEXT, created INTEGER, last_played INTEGER, avatar TEXT )"
     );
   }
 
-  void savePlayer(Player p) async {
+  Future<bool> savePlayer(Player p) async {
     var dbClient = await db;
-    
-    await dbClient.transaction((txn) async {
-      return await txn.rawInsert('INSERT INTO Player(name, created, last_played) VALUES(\"${p.name}\", ${p.created.millisecondsSinceEpoch}, ${p.lastPlayed.millisecondsSinceEpoch})');
-    });
+    final result = await dbClient.insert("Player", p.toMap());
+    return result > 0;
   }
 
   Future<bool> removePlayer(Player p) async {

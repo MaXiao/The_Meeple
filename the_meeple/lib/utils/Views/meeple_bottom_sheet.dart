@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
 class MeepleBottomSheet extends StatelessWidget {
-  MeepleBottomSheet({
-    Key key,
-    @required this.content,
-    this.contentHeight
-  }) : super(key: key);
+  MeepleBottomSheet(
+      {Key key,
+      @required this.title,
+      @required this.content,
+      this.contentHeight})
+      : super(key: key);
 
   final Widget content;
+  final String title;
   double contentHeight = 400;
 
   @override
@@ -25,7 +27,7 @@ class MeepleBottomSheet extends StatelessWidget {
                             width: 1, color: Color.fromARGB(40, 0, 0, 0)))),
                 child: Center(
                     child: Text(
-                  "Manage scores",
+                  title,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 )),
               ),
