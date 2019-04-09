@@ -2,16 +2,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:the_meeple/screens/records/add_record_screen.dart';
 import 'package:the_meeple/utils/MeepleColors.dart';
-import 'package:the_meeple/utils/Views/PrimaryButton.dart';
+import 'package:the_meeple/utils/Views/primary_button.dart';
+
+class RecordScreenInherited extends InheritedWidget {
+  RecordScreenInherited({Key key, @required Widget child,})  : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return false;
+  }
+
+  static RecordScreenInherited of(BuildContext context) {
+    return context.inheritFromWidgetOfExactType(RecordScreenInherited);
+  }
+}
 
 class RecordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MeepleColors.paleGray,
-      appBar: _Topbar(),
-      body: _EmptyView()
+    return RecordScreenInherited(
+      child: Scaffold(
+        backgroundColor: MeepleColors.paleGray,
+        appBar: _Topbar(),
+        body: _EmptyView()
+      ),
     );
   }
 }
@@ -25,26 +41,32 @@ class _Topbar extends StatefulWidget implements ObstructingPreferredSizeWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _TobbarState();
+    return _TopbarState();
   }
 }
 
-class _TobbarState extends State<_Topbar> {
+class _TopbarState extends State<_Topbar> {
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 140,
       color: Colors.white,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 24, top: 24),
-            child: Text("Your history", style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: MeepleColors.textBlack),),
-          ),
-          PrimaryButton(title: "Add record", actionCallback: () {},)
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 24, left: 16, right: 16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text("Your history", style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: MeepleColors.textBlack),),
+            PrimaryButton(title: "Add record", actionCallback: (){
+              Navigator.push(context, CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => AddRecordScreen()));
+            }, height: 40,)
+          ],
+        ),
       ),
     );
   }
@@ -67,11 +89,17 @@ class _EmptyView extends StatelessWidget {
                 width: 260,
                 child: Text("So let’s start. We’ll keep your memories intact.",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: MeepleColors.textLightGray),),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: MeepleColors.coolGrey),),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 58, left: 16, right: 16),
-                child: PrimaryButton(title: '\u{FF0B} Add record', actionCallback: () {},),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.expand(height: 56.0),
+                    child: PrimaryButton(title: '\u{FF0B} Add record', actionCallback:(){
+                      Navigator.push(context, CupertinoPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => AddRecordScreen()));
+                    },)),
               )
             ],
           ),
@@ -80,4 +108,6 @@ class _EmptyView extends StatelessWidget {
     );
   }
 }
+
+
 

@@ -54,8 +54,10 @@ class HomeScreen extends StatelessWidget {
           return ScoringScreen();
         } else if (index == 2) {
           return PlayersScreen();
-        } else {
+        } else if (index == 1) {
           return RecordScreen();
+        } else {
+          return PlayersScreen();
         }
       },
     );

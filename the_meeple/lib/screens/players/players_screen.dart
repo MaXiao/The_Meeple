@@ -121,7 +121,7 @@ class _EmptyPage extends StatelessWidget {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: MeepleColors.textLightGray),
+                color: MeepleColors.coolGrey),
           ),
         )
       ],

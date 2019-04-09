@@ -5,16 +5,17 @@ import 'package:the_meeple/utils/MeepleColors.dart';
 class PrimaryButton extends StatelessWidget {
   final VoidCallback actionCallback;
   final String title;
+  double height;
 
-  PrimaryButton({Key key, this.actionCallback, this.title})
+  PrimaryButton({Key key, this.actionCallback, this.title, this.height = 56})
       : assert(title != null),
         assert(actionCallback != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints.expand(height: 56.0),
+    return Container(
+      height: height,
       child: FlatButton(
           child: Text(
             title,
