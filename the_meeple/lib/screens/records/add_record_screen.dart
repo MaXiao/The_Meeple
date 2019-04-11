@@ -38,6 +38,7 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
         body: Padding(
           padding: const EdgeInsets.only(top: 8),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _ItemField(
                 isFilled: false,
@@ -64,7 +65,8 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
               _NoteField(
                 isFilled: false,
                 text: "",
-              )
+              ),
+              FlatButton.icon(onPressed: null, icon: Image.asset("assets/images/ic_record_preview.png"), label: Text("Preview", style: TextStyle(fontSize: 14, color: MeepleColors.primaryBlue),))
             ],
           ),
         ));

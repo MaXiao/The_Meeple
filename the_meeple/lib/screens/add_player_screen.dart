@@ -11,9 +11,11 @@ class AddPlayerInherited extends InheritedWidget {
   final List<Player> selectedPlayers;
   final AddPlayerScreenBloc bloc;
 
-
   AddPlayerInherited(
-      {Key key, @required this.bloc, @required this.selectedPlayers, @required Widget child})
+      {Key key,
+      @required this.bloc,
+      @required this.selectedPlayers,
+      @required Widget child})
       : super(key: key, child: child);
 
   @override
@@ -56,7 +58,6 @@ class AddPlayerScreenState extends State<PlayerScreen> {
     _bloc.toast.listen((msg) {
       showToast(context, msg);
     });
-
   }
 
   @override
@@ -96,17 +97,19 @@ class AddPlayerScreenState extends State<PlayerScreen> {
         initialData: true,
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            return snapshot.data ? FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Cancel",
-                  style: TextStyle(
-                      color: MeepleColors.primaryBlue,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                )) : EmptyView();
+            return snapshot.data
+                ? FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: MeepleColors.primaryBlue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ))
+                : EmptyView();
           } else {
             return EmptyView();
           }
@@ -129,7 +132,6 @@ class AddPlayerScreenState extends State<PlayerScreen> {
               onPressed: () {
                 Navigator.pop(context, snapshot.data);
               },
-
             );
           } else {
             return EmptyView();
@@ -181,22 +183,21 @@ class _AddPlayerFieldState extends State<_AddPlayerField> {
 
     return OverlayEntry(
         builder: (context) => Positioned(
-          left: 0,
-          top: offset.dy + size.height + 10,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: GestureDetector(
-            onTap: () {
-              _focus.unfocus();
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: MeepleColors.overlayGrey,
+              left: 0,
+              top: offset.dy + size.height + 10,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: GestureDetector(
+                onTap: () {
+                  _focus.unfocus();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: MeepleColors.overlayGrey,
+                  ),
+                ),
               ),
-            ),
-          ),
-        )
-    );
+            ));
   }
 
   @override
@@ -247,7 +248,8 @@ class _PlayerList extends StatelessWidget {
                       },
                       child: _PlayerCell(
                           player: player,
-                          selected: snapshot2.hasData && snapshot2.data.contains(player)),
+                          selected: snapshot2.hasData &&
+                              snapshot2.data.contains(player)),
                     );
                   });
             },
