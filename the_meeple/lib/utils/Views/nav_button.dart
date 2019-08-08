@@ -7,7 +7,7 @@ class NavButton extends StatelessWidget {
   final String title;
   final bool isLeading;
 
-  NavButton({Key key, this.onPressed, this.title}): assert(title != null), super(key: key);
+  NavButton({Key key, this.onPressed, this.title, this.isLeading = true}): assert(title != null), super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class NavButton extends StatelessWidget {
           width: 100,
           child: Text(
             title,
-            textAlign: TextAlign.start,
+            textAlign: isLeading ? TextAlign.start : TextAlign.end,
             style: TextStyle(
                 color: MeepleColors.primaryBlue,
                 fontSize: 16,

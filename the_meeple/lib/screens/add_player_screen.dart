@@ -27,10 +27,10 @@ class AddPlayerInherited extends InheritedWidget {
   }
 }
 
-class PlayerScreen extends StatefulWidget {
+class AddPlayerScreen extends StatefulWidget {
   final List<Player> _selectedPlayers;
 
-  PlayerScreen(this._selectedPlayers);
+  AddPlayerScreen(this._selectedPlayers);
 
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +38,7 @@ class PlayerScreen extends StatefulWidget {
   }
 }
 
-class AddPlayerScreenState extends State<PlayerScreen> {
+class AddPlayerScreenState extends State<AddPlayerScreen> {
   final _bloc = AddPlayerScreenBloc();
   List<Player> _selectedPlayers;
 

@@ -178,7 +178,7 @@ class ScoringScreenState extends State<ScoringScreen> {
         context,
         CupertinoPageRoute(
             fullscreenDialog: true,
-            builder: (context) => PlayerScreen(players)));
+            builder: (context) => AddPlayerScreen(players)));
 
     if (result is List<Player>) {
       _bloc.selectPlayers.add(result);
