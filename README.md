@@ -1,2 +1,2 @@
-# The_Meeple
+# The Meeple
 A boardgame companion app built in Flutter
